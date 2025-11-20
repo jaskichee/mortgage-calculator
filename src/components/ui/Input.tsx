@@ -39,7 +39,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="w-full">
+      <div className="w-full max-w-full">
         {label && (
           <label htmlFor={inputId} className="block text-sm font-medium text-foreground mb-1">
             {label}
@@ -48,7 +48,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           id={inputId}
           ref={ref}
-          className={`flex h-12 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:border-ring transition-all duration-300 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] ${
+          className={`block h-12 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:border-ring transition-all duration-300 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] ${
             error ? 'border-destructive/50 focus-visible:ring-destructive/50' : ''
           } ${className}`}
           onFocus={handleFocus}

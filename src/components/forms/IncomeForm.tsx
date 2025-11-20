@@ -3,6 +3,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { incomeSchema, IncomeFormData } from '@/lib/schemas/income-schema';
 import { Input } from '@/components/ui/Input';
+import { Slider } from '@/components/ui/Slider';
 import { Button } from '@/components/ui/Button';
 
 interface IncomeFormProps {
@@ -53,15 +54,17 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-6">
-        <Input clearOnFocus
+        <Slider
           label="Number of Working Household Members"
-          type="number"
           min={1}
+          max={5}
+          step={1}
+          value={workingMembersCount}
+          valueDisplay={workingMembersCount}
           {...register('workingMembersCount', { 
             valueAsNumber: true,
             min: { value: 1, message: "Must be at least 1" }
           })}
-          error={errors.workingMembersCount?.message}
         />
 
         <div className="space-y-4 p-4 border border-border rounded-md bg-muted/20">
