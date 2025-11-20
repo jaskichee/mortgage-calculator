@@ -1,26 +1,268 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Pragmatic Futurism - Light Theme */
+  /* Clean, airy, purposeful */
+  --background: #f8f9fa; /* Very subtle off-white for depth */
+  --foreground: #1a1d21; /* Soft black */
+
+  /* Primary: Deep, authoritative but modern */
+  --primary: #2d3436;
+  --primary-foreground: #ffffff;
+
+  /* Secondary: Functional grey */
+  --secondary: #e9ecef;
+  --secondary-foreground: #1a1d21;
+
+  /* Accent: Subtle highlight */
+  --accent: rgba(0, 0, 0, 0.04);
+  --accent-foreground: #1a1d21;
+
+  /* Muted: De-emphasized text */
+  --muted: #f1f3f5;
+  --muted-foreground: #4b5563; /* Darker grey for better visibility */
+
+  /* Destructive: Clear warning */
+  --destructive: #fa5252;
+  --destructive-foreground: #ffffff;
+
+  /* Glass / Liquid Design Variables */
+  --card: rgba(255, 255, 255, 0.7);
+  --card-gradient-start: rgba(255, 255, 255, 0.85);
+  --card-gradient-end: rgba(255, 255, 255, 0.45);
+  --card-foreground: #1a1d21;
+  --card-border: rgba(0, 0, 0, 0.06); /* Subtle grey border for visibility on light bg */
+  
+  --popover: rgba(255, 255, 255, 0.7);
+  --popover-foreground: #1a1d21;
+
+  /* Borders & Inputs */
+  --border: rgba(0, 0, 0, 0.1);
+  --input: rgba(255, 255, 255, 0.3);
+  --ring: rgba(45, 52, 54, 0.3);
+
+  --radius: 1.5rem; /* Even more rounded */
+  
+  /* Gradients & Effects */
+  --glass-blur: 24px;
+  --glass-saturation: 180%;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  
+  --backdrop-blur-glass: var(--glass-blur);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  /* Pragmatic Futurism - Dark Theme */
+  /* Deep, immersive, cyber-physical */
+  --background: #000000; /* Pure black for OLED depth */
+  --foreground: #e9ecef;
+  
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  
+  --secondary: rgba(255, 255, 255, 0.1);
+  --secondary-foreground: #ffffff;
+  
+  --accent: rgba(255, 255, 255, 0.1);
+  --accent-foreground: #ffffff;
+  
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: #a0a0a0;
+  
+  --card: rgba(30, 30, 30, 0.6);
+  --card-gradient-start: rgba(40, 44, 50, 0.75);
+  --card-gradient-end: rgba(20, 22, 25, 0.5);
+  --card-foreground: #ffffff;
+  --card-border: rgba(255, 255, 255, 0.08);
+  
+  --popover: rgba(20, 25, 30, 0.8);
+  --popover-foreground: #ffffff;
+  
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: rgba(255, 255, 255, 0.3);
+  
+  --destructive: #ff6b6b;
+  --destructive-foreground: #ffffff;
+}
+
+/* Global Styles for Liquid Design */
+body {
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(var(--primary), 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(var(--primary), 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(var(--primary), 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+.glass-panel {
+  background: linear-gradient(145deg, var(--card-gradient-start), var(--card-gradient-end));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--card-border);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.1), /* Increased shadow opacity for light mode */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4); /* Stronger inner ring */
+}
+
+.dark .glass-panel {
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Micro-interactions */
+.interactive-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px -5px rgba(var(--primary), 0.3); }
+  50% { box-shadow: 0 0 30px -5px rgba(var(--primary), 0.6); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite;
+}
+
+@keyframes move {
+  from {
+    transform: rotate(0deg) scale(24) translateX(-20px);
+  }
+  to {
+    transform: rotate(360deg) scale(36) translateX(20px);
   }
 }
 
+
 body {
-  background: var(--background);
+  /* Remove solid background to let gradients show through */
+  background-color: transparent;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  position: relative;
+  isolation: isolate;
 }
+
+/* Light Mode Gradient Background (Always present, bottom layer) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: radial-gradient(circle at center, #f9fafb 0%, #ffffff 100%);
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+/* Dark Mode Gradient Background (Top layer, fades in/out) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle at center, #2c343a 0%, #1b1f22 100%);
+  background-attachment: fixed;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+/* Show dark gradient when dark mode is active */
+.dark body::after {
+  opacity: 1;
+}
+
+/* Global smooth transition for theme changes - OPTIMIZED */
+/* Only apply to specific properties on root elements to avoid performance hit */
+body {
+  transition-property: background-color, color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Exclude the background pseudo-elements from the generic transition to avoid conflicts */
+body::before, body::after {
+  transition-property: opacity;
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  button, 
+  .no-print {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .shadow-sm {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}
+
