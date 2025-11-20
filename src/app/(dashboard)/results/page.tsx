@@ -9,7 +9,7 @@ import { validateCollateral } from '@/lib/calculations/collateral';
 import { calculateEmergencyFund } from '@/lib/calculations/emergency-fund';
 import { calculateInvestmentAllocation } from '@/lib/calculations/investment';
 import { runStressTest } from '@/lib/calculations/stress-test';
-import { calculateTotalChildCosts } from '@/lib/calculations/age-calculator';
+import { calculateTotalChildCosts, calculateAge } from '@/lib/calculations/age-calculator';
 import { DTIGauge } from '@/components/charts/DTIGauge';
 import { CashFlowChart } from '@/components/charts/CashFlowChart';
 import { AmortizationChart } from '@/components/charts/AmortizationChart';
@@ -25,6 +25,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 import { differenceInMonths, isAfter, addMonths, differenceInYears } from 'date-fns';
 import { getChildCost } from '@/lib/calculations/age-calculator';
+import { formatLocalDate } from '@/lib/utils/format-date';
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -371,10 +372,10 @@ export default function ResultsPage() {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">Analysis Results</h1>
-        <div className="space-x-4 no-print">
-          <Button variant="outline" onClick={handleReset} className="text-red-600 border-red-200 hover:bg-red-50">Reset Data</Button>
-          <Button variant="outline" onClick={() => router.push('/calculator?edit=true')}>Edit Inputs</Button>
-          <Button onClick={handleExport}>Export PDF</Button>
+        <div className="flex items-center space-x-2 sm:space-x-4 no-print">
+          <Button variant="outline" onClick={handleReset} className="text-red-600 border-red-200 hover:bg-red-50 h-8 px-2 text-xs sm:h-10 sm:px-4 sm:text-base">Reset Data</Button>
+          <Button variant="outline" onClick={() => router.push('/calculator?edit=true')} className="h-8 px-2 text-xs sm:h-10 sm:px-4 sm:text-base">Edit Inputs</Button>
+          <Button onClick={handleExport} className="h-8 px-2 text-xs sm:h-10 sm:px-4 sm:text-base">Export PDF</Button>
         </div>
       </div>
 
@@ -480,6 +481,24 @@ export default function ResultsPage() {
 
         {/* Right Column: Planning & Status */}
         <div className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Children</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {data.children.children.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No children added.</p>
+              ) : (
+                <ul className="space-y-2">
+                  {data.children.children.map((c, i) => (
+                    <li key={i} className="text-sm">
+                      <strong>Child {i + 1}:</strong> {formatLocalDate(c.birthDate)} — Age: {calculateAge(new Date(c.birthDate))}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
           {data.mortgage.useCollateral && (
             <div className={`p-6 rounded-xl border backdrop-blur-sm shadow-sm ${collateralValidation.isValid ? 'bg-secondary/10 border-secondary/20' : 'bg-destructive/10 border-destructive/20'}`}>
               <h3 className={`font-semibold ${collateralValidation.isValid ? 'text-secondary' : 'text-destructive'}`}>

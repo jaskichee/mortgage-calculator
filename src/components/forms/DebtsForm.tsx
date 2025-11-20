@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { debtsSchema, DebtsFormData } from '@/lib/schemas/debts-schema';
 import { Input } from '@/components/ui/Input';
+import DesktopDatePicker from '@/components/ui/DesktopDatePicker';
 import { Button } from '@/components/ui/Button';
 
 interface DebtsFormProps {
@@ -35,12 +36,14 @@ function parseDate(str: string): Date | undefined {
 }
 
 const DateInput = ({ value, onChange, error, label }: { value: Date | undefined, onChange: (d: Date | undefined) => void, error?: string, label: string }) => {
-  const [inputValue, setInputValue] = React.useState(value ? formatDate(value) : '');
+  const toInputValue = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setInputValue(val);
-    const date = parseDate(val);
+    const val = e.target.value; // YYYY-MM-DD
+    if (!val) return onChange(undefined);
+    const parts = val.split('-').map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return onChange(undefined);
+    const date = new Date(parts[0], parts[1] - 1, parts[2]);
     onChange(date);
   };
 
@@ -48,12 +51,10 @@ const DateInput = ({ value, onChange, error, label }: { value: Date | undefined,
     <Input
       clearOnFocus
       label={label}
-      type="text"
-      placeholder="DD. MM. YYYY"
-      value={inputValue}
+      type="date"
+      value={toInputValue(value)}
       onChange={handleChange}
       error={error}
-      helperText="Format: DD. MM. YYYY"
     />
   );
 };
@@ -107,7 +108,7 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
             control={control}
             name="carLoanEndDate"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <DateInput
+              <DesktopDatePicker
                 label="Date of Last Car Loan Payment"
                 value={value}
                 onChange={onChange}

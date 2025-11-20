@@ -3,6 +3,7 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { childrenSchema, ChildrenFormData } from '@/lib/schemas/children-schema';
 import { Input } from '@/components/ui/Input';
+import DesktopDatePicker from '@/components/ui/DesktopDatePicker';
 import { Button } from '@/components/ui/Button';
 import { calculateAge, getChildCost } from '@/lib/calculations/age-calculator';
 
@@ -36,24 +37,26 @@ function parseDate(str: string): Date | undefined {
 }
 
 const DateInput = ({ value, onChange, error, label }: { value: Date | undefined, onChange: (d: Date | undefined) => void, error?: string, label: string }) => {
-  const [inputValue, setInputValue] = React.useState(value ? formatDate(value) : '');
+  // For better mobile UX use native date input (YYYY-MM-DD). We keep the shared `Input` for styling.
+  const toInputValue = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setInputValue(val);
-    const date = parseDate(val);
+    const val = e.target.value; // YYYY-MM-DD
+    if (!val) return onChange(undefined);
+    const parts = val.split('-').map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return onChange(undefined);
+    const date = new Date(parts[0], parts[1] - 1, parts[2]);
     onChange(date);
   };
 
   return (
-    <Input clearOnFocus
+    <Input
+      clearOnFocus
       label={label}
-      type="text"
-      placeholder="DD. MM. YYYY"
-      value={inputValue}
+      type="date"
+      value={toInputValue(value)}
       onChange={handleChange}
       error={error}
-      helperText="Format: DD. MM. YYYY"
     />
   );
 };
@@ -105,13 +108,13 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
           const cost = getChildCost(age);
 
           return (
-            <div key={field.id} className="flex gap-4 items-end p-4 border border-border rounded-md bg-muted/20">
-              <div className="flex-1">
+            <div key={field.id} className="flex flex-col sm:flex-row gap-4 sm:items-end p-4 border border-border rounded-md bg-muted/20">
+              <div className="flex-1 w-full sm:min-w-0">
                 <Controller
                   control={control}
                   name={`children.${index}.birthDate`}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <DateInput
+                    <DesktopDatePicker
                       label={`Child ${index + 1} Date of Birth`}
                       value={value}
                       onChange={onChange}
@@ -120,13 +123,13 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
                   )}
                 />
               </div>
-              <div className="pb-3 text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground sm:pb-3">
                 Age: {age} | Est. Cost: €{cost}
               </div>
               <Button 
                 type="button" 
                 variant="outline" 
-                className="text-red-600 hover:text-red-700 border-red-200 hover:bg-red-50"
+                className="w-full sm:w-auto text-red-600 hover:text-red-700 border-red-200 hover:bg-red-50"
                 onClick={() => remove(index)}
               >
                 Remove

@@ -40,7 +40,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-foreground">DTI Ratio</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className={`px-6 py-4 ${s.totalDTI > 40 ? 'text-red-600 font-bold' : 'text-secondary'}`}>
+                  <td key={s.name} className={`px-6 py-4 ${s.totalDTI > 40 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
                     {s.totalDTI.toFixed(1)}%
                   </td>
                 ))}
@@ -48,7 +48,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-foreground">Monthly Surplus</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className={`px-6 py-4 ${s.monthlySurplus < 0 ? 'text-red-600 font-bold' : 'text-secondary'}`}>
+                  <td key={s.name} className={`px-6 py-4 ${s.monthlySurplus < 0 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
                     €{s.monthlySurplus.toFixed(2)}
                   </td>
                 ))}
@@ -58,7 +58,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
                 {scenarios.map((s) => (
                   <td key={s.name} className="px-6 py-4">
                     {s.isAffordable ? (
-                      <span className="bg-secondary/10 text-secondary text-xs font-medium px-2.5 py-0.5 rounded">Pass</span>
+                      <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded">Pass</span>
                     ) : (
                       <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Fail</span>
                     )}
