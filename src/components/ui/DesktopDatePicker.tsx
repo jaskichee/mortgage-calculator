@@ -124,7 +124,7 @@ export function DesktopDatePicker({ value, onChange, label, error }: Props) {
   };
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="relative w-full">
       <Input
         clearOnFocus
         label={label}

@@ -67,7 +67,7 @@ export function InvestmentPreferencesForm({ defaultValues, onSubmit, onBack }: I
 
       <div className="flex gap-4">
         <Button type="button" variant="outline" onClick={onBack} className="w-full">Back</Button>
-        <Button type="submit" className="w-full">Calculate Results</Button>
+        <Button type="submit" className="w-full text-sm sm:text-base">Calculate Results</Button>
       </div>
     </form>
   );

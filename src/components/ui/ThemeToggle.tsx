@@ -8,14 +8,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
-  const [minimized, setMinimized] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
-    try {
-      const saved = localStorage.getItem('theme_toggle_minimized');
-      if (saved) setMinimized(saved === 'true');
-    } catch (e) {}
   }, []);
 
   if (!mounted) {
@@ -28,19 +23,13 @@ export function ThemeToggle() {
     setTheme(isDark ? 'light' : 'dark');
   };
 
-  const toggleMinimized = () => {
-    const next = !minimized;
-    setMinimized(next);
-    try { localStorage.setItem('theme_toggle_minimized', String(next)); } catch (e) {}
-  };
-
   return (
-    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 100 }} className="flex flex-col items-end gap-2">
+    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 100 }}>
       <Button
         variant="ghost"
         size="sm"
         onClick={toggleTheme}
-        className={`rounded-full !p-0 glass-panel hover:bg-white/20 border border-white/10 shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all duration-300 ${minimized ? '!w-10 !h-10' : 'w-14 h-14'}`}
+        className="rounded-full !p-0 glass-panel hover:bg-white/20 border border-white/10 shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all duration-300 w-10 h-10 sm:w-12 sm:h-12"
         aria-label="Toggle theme"
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -69,18 +58,6 @@ export function ThemeToggle() {
           )}
         </AnimatePresence>
       </Button>
-
-      <button
-        onClick={toggleMinimized}
-        title={minimized ? 'Expand theme toggle' : 'Minimize theme toggle'}
-        className="w-8 h-8 rounded-full bg-muted/40 text-foreground flex items-center justify-center border border-white/10 hover:bg-muted/60"
-      >
-        {minimized ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-        )}
-      </button>
     </div>
   );
 }
