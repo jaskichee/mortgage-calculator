@@ -333,13 +333,38 @@ export default function ResultsPage() {
   const handleReset = () => {
     if (confirm('Are you sure you want to clear all data and start over?')) {
       localStorage.removeItem('mortgage_calculator_data');
-      router.push('/calculator');
+      // Navigate to calculator and indicate a reset so the page knows to clear local state
+      router.push('/calculator?reset=true');
+    }
+  };
+
+  const handleExport = () => {
+    // Create a printable snapshot of the results area and open print dialog
+    try {
+      const content = document.querySelector('.mx-auto.py-8');
+      const headHtml = document.head.innerHTML;
+      const newWindow = window.open('', '_blank', 'width=1200,height=900');
+      if (!newWindow) throw new Error('Unable to open print window (popup blocked)');
+
+      const html = `<!doctype html><html><head>${headHtml}</head><body>${content?.outerHTML || document.body.innerHTML}</body></html>`;
+      newWindow.document.open();
+      newWindow.document.write(html);
+      newWindow.document.close();
+
+      // Give browser a moment to render styles before printing
+      setTimeout(() => {
+        newWindow.focus();
+        newWindow.print();
+      }, 500);
+    } catch (err) {
+      // Fallback to simple print
+      window.print();
     }
   };
 
   return (
     <motion.div 
-      className="container mx-auto py-10 px-4 max-w-6xl space-y-8"
+      className="mx-auto py-8 px-4 sm:px-6 lg:px-8 max-w-full sm:max-w-6xl space-y-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -348,13 +373,13 @@ export default function ResultsPage() {
         <h1 className="text-3xl font-bold text-foreground">Analysis Results</h1>
         <div className="space-x-4 no-print">
           <Button variant="outline" onClick={handleReset} className="text-red-600 border-red-200 hover:bg-red-50">Reset Data</Button>
-          <Button variant="outline" onClick={() => router.push('/calculator')}>Edit Inputs</Button>
-          <Button onClick={() => window.print()}>Export PDF</Button>
+          <Button variant="outline" onClick={() => router.push('/calculator?edit=true')}>Edit Inputs</Button>
+          <Button onClick={handleExport}>Export PDF</Button>
         </div>
       </div>
 
       {/* Top Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <SummaryCard 
           title="Monthly Payment" 
           value={`€${selectedMortgage.monthlyPayment.toFixed(2)}`} 
@@ -384,21 +409,25 @@ export default function ResultsPage() {
         
         {/* Left Column: Affordability & Cash Flow */}
         <div className="lg:col-span-2 space-y-8">
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle>Debt-to-Income Ratio</CardTitle>
             </CardHeader>
             <CardContent>
-              <DTIGauge value={dtiResult.totalDTI} />
+              <div className="w-full h-56 sm:h-72">
+                <DTIGauge value={dtiResult.totalDTI} />
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="w-full">
             <CardHeader>
               <CardTitle>Monthly Cash Flow Projection</CardTitle>
             </CardHeader>
             <CardContent>
-              <CashFlowChart data={cashFlowData} />
+              <div className="w-full h-56 sm:h-72">
+                <CashFlowChart data={cashFlowData} />
+              </div>
             </CardContent>
           </Card>
 

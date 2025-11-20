@@ -106,13 +106,13 @@ export function Card({ className = '', children, ...props }: CardProps) {
 }
 
 export function CardHeader({ className = '', ...props }: CardProps) {
-  return <div className={`flex flex-col space-y-1.5 p-6 ${className}`} {...props} />;
+  return <div className={`flex flex-col space-y-1.5 p-4 sm:p-6 ${className}`} {...props} />;
 }
 
 export function CardTitle({ className = '', ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={`text-2xl font-semibold leading-none tracking-tight ${className}`}
+      className={`text-lg sm:text-2xl font-semibold leading-none tracking-tight ${className}`}
       {...props}
     />
   );
@@ -123,7 +123,7 @@ export function CardDescription({ className = '', ...props }: React.HTMLAttribut
 }
 
 export function CardContent({ className = '', ...props }: CardProps) {
-  return <div className={`p-6 pt-0 ${className}`} {...props} />;
+  return <div className={`p-4 sm:p-6 pt-0 ${className}`} {...props} />;
 }
 
 export function CardFooter({ className = '', ...props }: CardProps) {

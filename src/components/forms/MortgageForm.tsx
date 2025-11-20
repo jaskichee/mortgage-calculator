@@ -71,14 +71,14 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
-        <Input
+        <Input clearOnFocus
           label="Home Price (€)"
           type="number"
           {...register('homePrice', { valueAsNumber: true })}
           error={errors.homePrice?.message}
         />
 
-        <Input
+        <Input clearOnFocus
           label="Down Payment (€)"
           type="number"
           {...register('downPayment', { valueAsNumber: true })}
@@ -128,7 +128,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
 
             {additionalResourceMethod === 'collateral' && (
               <div className="pt-2 space-y-4 animate-in fade-in slide-in-from-top-2 ml-1 border-l-2 border-primary/20 pl-4">
-                <Input
+                <Input clearOnFocus
                   label="Collateral Property Value (€)"
                   type="number"
                   {...register('parentPropertyValue', { valueAsNumber: true })}
@@ -148,7 +148,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
 
             {additionalResourceMethod === 'consumerLoan' && (
               <div className="pt-2 animate-in fade-in slide-in-from-top-2 ml-1 border-l-2 border-primary/20 pl-4 space-y-4">
-                <Input
+                <Input clearOnFocus
                   label="Consumer Loan Interest Rate (%)"
                   type="number"
                   step="0.1"
@@ -200,7 +200,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
         </div>
 
         {rateType === 'fixed' ? (
-          <Input
+          <Input clearOnFocus
             label="Annual Fixed Interest Rate (%)"
             type="number"
             step="0.01"
@@ -209,14 +209,14 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
           />
         ) : (
           <div className="grid grid-cols-2 gap-4">
-            <Input
+            <Input clearOnFocus
               label="EURIBOR 6M (%)"
               type="number"
               step="0.01"
               {...register('euribor', { valueAsNumber: true })}
               error={errors.euribor?.message}
             />
-            <Input
+            <Input clearOnFocus
               label="Bank Margin (%)"
               type="number"
               step="0.01"

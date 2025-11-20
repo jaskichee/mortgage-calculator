@@ -53,7 +53,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-6">
-        <Input
+        <Input clearOnFocus
           label="Number of Working Household Members"
           type="number"
           min={1}
@@ -66,13 +66,13 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
 
         <div className="space-y-4 p-4 border border-border rounded-md bg-muted/20">
           <h3 className="font-medium text-foreground">Primary Applicant</h3>
-          <Input
+          <Input clearOnFocus
             label="Monthly Net Income (€)"
             type="number"
             {...register('primaryIncome', { valueAsNumber: true })}
             error={errors.primaryIncome?.message}
           />
-          <Input
+          <Input clearOnFocus
             label="Annual Bonuses (Vacation + Christmas) (€)"
             helperText="Total annual amount of Regres + Božičnica (Net)"
             type="number"
@@ -84,13 +84,13 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
         {workingMembersCount > 1 && (
           <div className="space-y-4 p-4 border border-border rounded-md bg-muted/20">
             <h3 className="font-medium text-foreground">Other Household Members {workingMembersCount > 2 ? `(Total for ${workingMembersCount - 1} people)` : ''}</h3>
-            <Input
+            <Input clearOnFocus
               label={otherLabel}
               type="number"
               {...register('otherIncome', { valueAsNumber: true })}
               error={errors.otherIncome?.message}
             />
-            <Input
+            <Input clearOnFocus
               label={otherBonusLabel}
               helperText="Total annual amount of Regres + Božičnica (Net)"
               type="number"

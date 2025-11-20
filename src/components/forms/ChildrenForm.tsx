@@ -46,7 +46,7 @@ const DateInput = ({ value, onChange, error, label }: { value: Date | undefined,
   };
 
   return (
-    <Input
+    <Input clearOnFocus
       label={label}
       type="text"
       placeholder="DD. MM. YYYY"

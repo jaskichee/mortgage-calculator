@@ -46,6 +46,7 @@ const DateInput = ({ value, onChange, error, label }: { value: Date | undefined,
 
   return (
     <Input
+      clearOnFocus
       label={label}
       type="text"
       placeholder="DD. MM. YYYY"
@@ -83,19 +84,19 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
         <h3 className="font-medium text-foreground">Existing Monthly Debt Payments</h3>
-        <Input
+        <Input clearOnFocus
           label="Student Loans (€/month)"
           type="number"
           {...register('studentLoans', { valueAsNumber: true })}
           error={errors.studentLoans?.message}
         />
-        <Input
+        <Input clearOnFocus
           label="Credit Cards (€/month)"
           type="number"
           {...register('creditCards', { valueAsNumber: true })}
           error={errors.creditCards?.message}
         />
-        <Input
+        <Input clearOnFocus
           label="Car Loans (€/month)"
           type="number"
           {...register('carLoans', { valueAsNumber: true })}
@@ -115,7 +116,7 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
             )}
           />
         )}
-        <Input
+        <Input clearOnFocus
           label="Other Loans (€/month)"
           type="number"
           {...register('otherLoans', { valueAsNumber: true })}
@@ -124,7 +125,7 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
         
         <div className="pt-4 border-t border-border">
           <h3 className="font-medium text-foreground mb-4">Savings</h3>
-          <Input
+          <Input clearOnFocus
             label="Current Total Savings (€)"
             type="number"
             {...register('existingSavings', { valueAsNumber: true })}

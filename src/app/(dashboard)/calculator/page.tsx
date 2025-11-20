@@ -31,19 +31,51 @@ export default function CalculatorPage() {
   const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
-    const storedData = localStorage.getItem('mortgage_calculator_data');
-    if (storedData) {
-      try {
-        const parsed = JSON.parse(storedData, (key, value) => {
-          if (key === 'birthDate' || key === 'carLoanEndDate') return new Date(value);
-          return value;
-        });
-        setFormData(parsed);
-      } catch (e) {
-        console.error("Failed to parse stored data", e);
+    const handleInit = () => {
+      const storedData = localStorage.getItem('mortgage_calculator_data');
+      if (storedData) {
+        try {
+          const parsed = JSON.parse(storedData, (key, value) => {
+            if (key === 'birthDate' || key === 'carLoanEndDate') return new Date(value);
+            return value;
+          });
+          setFormData(parsed);
+        } catch (e) {
+          console.error('Failed to parse stored data', e);
+        }
       }
-    }
-    setIsLoaded(true);
+
+      // Check URL params for reset/edit/step
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('reset') === 'true') {
+          // Clear existing storage and reset local state
+          localStorage.removeItem('mortgage_calculator_data');
+          setFormData({});
+          setCurrentStepIndex(0);
+          setResetKey(prev => prev + 1);
+        } else if (params.get('edit') === 'true') {
+          // If editing, attempt to open the first incomplete step
+          if (storedData) {
+            const parsed = JSON.parse(storedData);
+            const firstMissing = STEPS.findIndex(s => !(parsed && parsed[s.id]));
+            if (firstMissing >= 0) setCurrentStepIndex(firstMissing);
+          }
+        }
+
+        const stepParam = params.get('step');
+        if (stepParam) {
+          const idx = STEPS.findIndex(s => s.id === stepParam);
+          if (idx >= 0) setCurrentStepIndex(idx);
+        }
+      } catch (e) {
+        // ignore URL parsing errors
+      }
+
+      setIsLoaded(true);
+    };
+
+    handleInit();
   }, []);
 
   const currentStep = STEPS[currentStepIndex];
@@ -115,7 +147,7 @@ export default function CalculatorPage() {
   };
 
   return (
-    <div className="container mx-auto py-10 px-4 max-w-3xl relative z-10">
+    <div className="mx-auto py-8 px-4 sm:px-6 lg:px-8 max-w-full sm:max-w-3xl relative z-10">
       <div className="mb-8 space-y-6">
         <div className="flex justify-between items-end">
           <div>
@@ -133,10 +165,10 @@ export default function CalculatorPage() {
         </div>
         
         {/* Progress Bar - Liquid Design */}
-        <div className="relative h-2 w-full bg-secondary/50 backdrop-blur-sm rounded-full overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
+        <div className="relative h-2 w-full bg-secondary/50 rounded-full overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
           <div 
-            className="absolute top-0 left-0 h-full bg-primary transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-[0_0_12px_rgba(var(--primary),0.6)]" 
-            style={{ width: `${((currentStepIndex + 1) / STEPS.length) * 100}%` }}
+            className="absolute top-0 left-0 h-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" 
+            style={{ width: `${((currentStepIndex + 1) / STEPS.length) * 100}%`, boxShadow: '0 6px 18px rgba(0,0,0,0.08)'}}
           />
         </div>
       </div>

@@ -39,20 +39,20 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
           <h3 className="font-medium text-foreground">Fixed Expenses</h3>
-          <Input
+          <Input clearOnFocus
             label="Utilities (Electricity, Water, Heating)"
             type="number"
             {...register('utilities', { valueAsNumber: true })}
             error={errors.utilities?.message}
           />
-          <Input
+          <Input clearOnFocus
             label="Insurance (Life, Home, Car)"
             type="number"
             {...register('insurance', { valueAsNumber: true })}
             error={errors.insurance?.message}
           />
           {watch('insurance') > 0 && (
-             <Input
+             <Input clearOnFocus
               label="Life Insurance Duration (Years)"
               helperText="If applicable, how many years left? (0 for indefinite)"
               type="number"
@@ -60,7 +60,7 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
               error={errors.lifeInsuranceDuration?.message}
             />
           )}
-          <Input
+          <Input clearOnFocus
             label="Subscriptions (Phone, Internet, Netflix)"
             type="number"
             {...register('subscriptions', { valueAsNumber: true })}
@@ -70,25 +70,25 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
 
         <div className="space-y-4">
           <h3 className="font-medium text-foreground">Variable Expenses</h3>
-          <Input
+          <Input clearOnFocus
             label="Groceries & Household Items"
             type="number"
             {...register('groceries', { valueAsNumber: true })}
             error={errors.groceries?.message}
           />
-          <Input
+          <Input clearOnFocus
             label="Transportation (Fuel, Public Transport)"
             type="number"
             {...register('transportation', { valueAsNumber: true })}
             error={errors.transportation?.message}
           />
-          <Input
+          <Input clearOnFocus
             label="Entertainment & Dining Out"
             type="number"
             {...register('entertainment', { valueAsNumber: true })}
             error={errors.entertainment?.message}
           />
-          <Input
+          <Input clearOnFocus
             label="Other Expenses"
             type="number"
             {...register('other', { valueAsNumber: true })}
