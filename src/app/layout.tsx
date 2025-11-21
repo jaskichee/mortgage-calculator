@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -29,6 +30,7 @@ export default function RootLayout({
             <ThemeToggle />
             {children}
             <SpeedInsights />
+            <Analytics />
           </div>
         </ThemeProvider>
       </body>
