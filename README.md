@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8)
 
-A sophisticated financial planning tool designed specifically for the Slovenian real estate market. This application goes beyond simple mortgage calculations to provide a holistic view of affordability, risk, and long-term financial health, wrapped in a modern interface.
+A sophisticated financial planning tool designed specifically for the real estate market. This application goes beyond simple mortgage calculations to provide a holistic view of affordability, risk, and long-term financial health, wrapped in a modern interface.
 
 ## 🌟 Key Features
 

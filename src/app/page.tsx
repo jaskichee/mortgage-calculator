@@ -8,7 +8,7 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center w-full flex-1 px-2 sm:px-8 md:px-20 text-center z-10 max-w-7xl mx-auto">
         <div className="mb-8 sm:mb-12 space-y-4 sm:space-y-6">
           <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold text-foreground tracking-tight leading-tight">
-            Slovenian Mortgage <br />
+            Mortgage <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
               Affordability
             </span>
@@ -65,7 +65,7 @@ export default function Home() {
 
       <footer className="flex items-center justify-center w-full h-20 sm:h-24 mt-8 sm:mt-12 border-t border-border/50 backdrop-blur-sm z-10 px-2">
         <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-          Designed for the Slovenian Market 🇸🇮 | EUR Currency
+          Designed for the Slovenian Market | EUR Currency
         </p>
       </footer>
     </div>
