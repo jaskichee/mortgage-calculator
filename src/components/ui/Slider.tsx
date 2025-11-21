@@ -27,7 +27,12 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
         const changeHandler = props.onChange as unknown as ((ev: React.ChangeEvent<HTMLInputElement>) => void) | undefined;
         if (changeHandler) {
           // Create a synthetic event-like object with target.value
-          changeHandler({ target: internalRef.current } as unknown as React.ChangeEvent<HTMLInputElement>);
+          const syntheticEvent = {
+            ...e,
+            target: internalRef.current,
+            currentTarget: internalRef.current,
+          } as unknown as React.ChangeEvent<HTMLInputElement>;
+          changeHandler(syntheticEvent);
         }
       }
 

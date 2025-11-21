@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { investmentSchema, InvestmentFormData } from '@/lib/schemas/investment-schema';
 import { Slider } from '@/components/ui/Slider';
@@ -15,9 +15,9 @@ export function InvestmentPreferencesForm({ defaultValues, onSubmit, onBack }: I
   const {
     register,
     handleSubmit,
-    watch,
+    control,
   } = useForm<InvestmentFormData>({
-    resolver: zodResolver(investmentSchema) as any,
+    resolver: zodResolver(investmentSchema) as Resolver<InvestmentFormData>,
     defaultValues: {
       emergencyFundMonths: 3,
       etfAllocation: 50,
@@ -25,8 +25,16 @@ export function InvestmentPreferencesForm({ defaultValues, onSubmit, onBack }: I
     },
   });
 
-  const emergencyFundMonths = watch('emergencyFundMonths');
-  const etfAllocation = watch('etfAllocation');
+  const emergencyFundMonths = useWatch({
+    control,
+    name: 'emergencyFundMonths',
+    defaultValue: defaultValues?.emergencyFundMonths || 3,
+  });
+  const etfAllocation = useWatch({
+    control,
+    name: 'etfAllocation',
+    defaultValue: defaultValues?.etfAllocation || 50,
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">

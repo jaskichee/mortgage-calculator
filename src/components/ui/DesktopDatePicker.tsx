@@ -3,6 +3,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { Input } from '@/components/ui/Input';
+import { formatLocalDate } from '@/lib/utils/format-date';
 
 interface Props {
   value?: Date | undefined;
@@ -56,35 +57,10 @@ export function DesktopDatePicker({ value, onChange, label, error }: Props) {
     }
   }, [open]);
 
-  const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
-  const toInputValue = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
-
-  const handleNativeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (!val) return onChange(undefined);
-    const parts = val.split('-').map(Number);
-    if (parts.length !== 3 || parts.some(isNaN)) return onChange(undefined);
-    onChange(new Date(parts[0], parts[1] - 1, parts[2]));
-  };
-
   const handleSelect = (d: Date) => {
     onChange(d);
     setOpen(false);
   };
-
-  if (isTouch) {
-    return (
-      <Input
-        label={label}
-        type="date"
-        value={toInputValue(value)}
-        onChange={handleNativeChange}
-        error={error}
-        className="text-base sm:text-sm" // Prevent zoom on mobile
-      />
-    );
-  }
 
   const monthStart = startOfMonth(viewMonth);
   // Adjust for Monday start (Slovenian locale)
@@ -123,15 +99,26 @@ export function DesktopDatePicker({ value, onChange, label, error }: Props) {
     );
   };
 
+  const handleFocus = () => {
+    if (rootRef.current) {
+      const rect = rootRef.current.getBoundingClientRect();
+      setPosition({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.left + window.scrollX,
+      });
+    }
+    setOpen(true);
+  };
+
   return (
     <div ref={rootRef} className="relative w-full max-w-full">
       <Input
         clearOnFocus
         label={label}
         type="text"
-        value={value ? value.toLocaleDateString('sl-SI') : ''}
+        value={formatLocalDate(value)}
         readOnly
-        onFocus={() => setOpen(true)}
+        onFocus={handleFocus}
         error={error}
       />
 

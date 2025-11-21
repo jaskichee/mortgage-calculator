@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { debtsSchema, DebtsFormData } from '@/lib/schemas/debts-schema';
 import { Input } from '@/components/ui/Input';
@@ -12,62 +12,14 @@ interface DebtsFormProps {
   onBack: () => void;
 }
 
-function formatDate(date: Date): string {
-  if (!(date instanceof Date) || isNaN(date.getTime())) return '';
-  const d = date.getDate().toString().padStart(2, '0');
-  const m = (date.getMonth() + 1).toString().padStart(2, '0');
-  const y = date.getFullYear();
-  return `${d}. ${m}. ${y}`;
-}
-
-function parseDate(str: string): Date | undefined {
-  const parts = str.split(/[. ]+/).filter(Boolean);
-  if (parts.length !== 3) return undefined;
-  const d = parseInt(parts[0], 10);
-  const m = parseInt(parts[1], 10);
-  const y = parseInt(parts[2], 10);
-  
-  if (isNaN(d) || isNaN(m) || isNaN(y)) return undefined;
-  
-  const date = new Date(y, m - 1, d);
-  if (date.getFullYear() !== y || date.getMonth() !== m - 1 || date.getDate() !== d) return undefined;
-  
-  return date;
-}
-
-const DateInput = ({ value, onChange, error, label }: { value: Date | undefined, onChange: (d: Date | undefined) => void, error?: string, label: string }) => {
-  const toInputValue = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value; // YYYY-MM-DD
-    if (!val) return onChange(undefined);
-    const parts = val.split('-').map(Number);
-    if (parts.length !== 3 || parts.some(isNaN)) return onChange(undefined);
-    const date = new Date(parts[0], parts[1] - 1, parts[2]);
-    onChange(date);
-  };
-
-  return (
-    <Input
-      clearOnFocus
-      label={label}
-      type="date"
-      value={toInputValue(value)}
-      onChange={handleChange}
-      error={error}
-    />
-  );
-};
-
 export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    watch,
   } = useForm<DebtsFormData>({
-    resolver: zodResolver(debtsSchema) as any,
+    resolver: zodResolver(debtsSchema) as Resolver<DebtsFormData>,
     defaultValues: {
       studentLoans: 0,
       creditCards: 0,
@@ -78,7 +30,7 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
     },
   });
 
-  const values = watch();
+  const values = useWatch({ control });
   const totalMonthlyDebt = (values.studentLoans || 0) + (values.creditCards || 0) + (values.carLoans || 0) + (values.otherLoans || 0);
 
   return (
@@ -103,19 +55,21 @@ export function DebtsForm({ defaultValues, onSubmit, onBack }: DebtsFormProps) {
           {...register('carLoans', { valueAsNumber: true })}
           error={errors.carLoans?.message}
         />
-        {watch('carLoans') > 0 && (
-          <Controller
-            control={control}
-            name="carLoanEndDate"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <DesktopDatePicker
-                label="Date of Last Car Loan Payment"
-                value={value}
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
+        {(values.carLoans || 0) > 0 && (
+          <div className="min-w-0">
+            <Controller
+              control={control}
+              name="carLoanEndDate"
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <DesktopDatePicker
+                  label="Date of Last Car Loan Payment"
+                  value={value}
+                  onChange={onChange}
+                  error={error?.message}
+                />
+              )}
+            />
+          </div>
         )}
         <Input clearOnFocus
           label="Other Loans (€/month)"

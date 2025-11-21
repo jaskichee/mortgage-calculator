@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { expensesSchema, ExpensesFormData } from '@/lib/schemas/expenses-schema';
 import { Input } from '@/components/ui/Input';
@@ -16,9 +16,9 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    control,
   } = useForm<ExpensesFormData>({
-    resolver: zodResolver(expensesSchema) as any,
+    resolver: zodResolver(expensesSchema) as Resolver<ExpensesFormData>,
     defaultValues: {
       utilities: 0,
       insurance: 0,
@@ -31,8 +31,8 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
     },
   });
 
-  const values = watch();
-  const totalExpenses = Object.values(values).reduce((acc, val) => acc + (Number(val) || 0), 0);
+  const values = useWatch({ control });
+  const totalExpenses = Object.values(values).reduce((acc: number, val) => acc + (Number(val) || 0), 0);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -51,7 +51,7 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
             {...register('insurance', { valueAsNumber: true })}
             error={errors.insurance?.message}
           />
-          {watch('insurance') > 0 && (
+          {(values.insurance || 0) > 0 && (
              <Input clearOnFocus
               label="Life Insurance Duration (Years)"
               helperText="If applicable, how many years left? (0 for indefinite)"

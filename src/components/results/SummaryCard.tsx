@@ -20,10 +20,10 @@ export function SummaryCard({ title, value, description, status = 'neutral' }: S
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+      <CardHeader className="pb-2 text-center">
+        <CardTitle className="text-sm font-medium text-muted-foreground h-10 flex items-center justify-center">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="text-center">
         <div className={`text-2xl font-bold ${statusColors[status]}`}>{displayValue}</div>
         {description && <p className="text-xs text-muted-foreground mt-1">{description}</p>}
       </CardContent>

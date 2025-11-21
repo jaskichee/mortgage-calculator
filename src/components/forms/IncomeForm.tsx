@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { incomeSchema, IncomeFormData } from '@/lib/schemas/income-schema';
 import { Input } from '@/components/ui/Input';
@@ -19,7 +19,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
     setValue,
     formState: { errors },
   } = useForm<IncomeFormData>({
-    resolver: zodResolver(incomeSchema) as any,
+    resolver: zodResolver(incomeSchema) as Resolver<IncomeFormData>,
     defaultValues: {
       primaryIncome: 0,
       primaryBonuses: 0,

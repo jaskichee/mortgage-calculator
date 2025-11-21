@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Card({ className = '', children, ...props }: CardProps) {
@@ -13,7 +14,9 @@ export function Card({ className = '', children, ...props }: CardProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Defer state update to avoid synchronous setState in effect warning
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -72,7 +75,7 @@ export function Card({ className = '', children, ...props }: CardProps) {
           ? `0 20px 40px -5px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.3)` 
           : `${shadowOffset.x}px ${shadowOffset.y}px 30px -5px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.2)`,
         transform: isHovered ? 'translateY(-4px) scale(1.01)' : 'translateY(0) scale(1)',
-        // @ts-ignore
+        // @ts-expect-error - CSS custom properties are not typed in React.CSSProperties
         '--mouse-x': '0px',
         '--mouse-y': '0px',
       }}

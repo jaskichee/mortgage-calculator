@@ -9,7 +9,7 @@ interface InvestmentAllocationProps {
 export function InvestmentAllocation({ allocation }: InvestmentAllocationProps) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="text-center">
         <CardTitle>Investment Allocation</CardTitle>
       </CardHeader>
       <CardContent>
@@ -39,12 +39,12 @@ export function InvestmentAllocation({ allocation }: InvestmentAllocationProps) 
               </div>
               
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm shadow-sm">
+                <div className="p-4 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm shadow-sm text-center">
                   <div className="text-sm text-muted-foreground mb-1">ETFs (Growth)</div>
                   <div className="text-xl font-bold text-foreground">€{allocation.monthlyToETF.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground mt-1">/ month</div>
                 </div>
-                <div className="p-4 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm shadow-sm">
+                <div className="p-4 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm shadow-sm text-center">
                   <div className="text-sm text-muted-foreground mb-1">Savings (Safe)</div>
                   <div className="text-xl font-bold text-foreground">€{allocation.monthlyToSavings.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground mt-1">/ month</div>

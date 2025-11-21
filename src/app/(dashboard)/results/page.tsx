@@ -357,7 +357,7 @@ export default function ResultsPage() {
         newWindow.focus();
         newWindow.print();
       }, 500);
-    } catch (err) {
+    } catch (_) {
       // Fallback to simple print
       window.print();
     }
@@ -411,18 +411,18 @@ export default function ResultsPage() {
         {/* Left Column: Affordability & Cash Flow */}
         <div className="lg:col-span-2 space-y-8">
           <Card className="w-full">
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Debt-to-Income Ratio</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="w-full h-56 sm:h-72">
+              <div className="w-full h-auto">
                 <DTIGauge value={dtiResult.totalDTI} />
               </div>
             </CardContent>
           </Card>
 
           <Card className="w-full">
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Monthly Cash Flow Projection</CardTitle>
             </CardHeader>
             <CardContent>
@@ -461,7 +461,7 @@ export default function ResultsPage() {
           />
           
           <Card>
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Stress Test: 5-Year Savings Projection</CardTitle>
             </CardHeader>
             <CardContent>
@@ -470,7 +470,7 @@ export default function ResultsPage() {
           </Card>
 
           <Card>
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Amortization Schedule</CardTitle>
             </CardHeader>
             <CardContent>
@@ -482,7 +482,7 @@ export default function ResultsPage() {
         {/* Right Column: Planning & Status */}
         <div className="space-y-8">
           <Card>
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Children</CardTitle>
             </CardHeader>
             <CardContent>
@@ -500,7 +500,7 @@ export default function ResultsPage() {
             </CardContent>
           </Card>
           {data.mortgage.useCollateral && (
-            <div className={`p-6 rounded-xl border backdrop-blur-sm shadow-sm ${collateralValidation.isValid ? 'bg-secondary/10 border-secondary/20' : 'bg-destructive/10 border-destructive/20'}`}>
+            <div className={`p-6 rounded-xl border backdrop-blur-sm shadow-sm text-center ${collateralValidation.isValid ? 'bg-secondary/10 border-secondary/20' : 'bg-destructive/10 border-destructive/20'}`}>
               <h3 className={`font-semibold ${collateralValidation.isValid ? 'text-secondary' : 'text-destructive'}`}>
                 Collateral Status: {collateralValidation.isValid ? 'Approved' : 'Insufficient'}
               </h3>
@@ -519,7 +519,7 @@ export default function ResultsPage() {
           )}
 
           <Card>
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Emergency Fund Plan</CardTitle>
             </CardHeader>
             <CardContent>

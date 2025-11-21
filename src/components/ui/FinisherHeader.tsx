@@ -18,7 +18,8 @@ export default function FinisherHeader() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const currentTheme = theme === 'system' ? systemTheme : theme;

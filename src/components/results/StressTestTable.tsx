@@ -16,7 +16,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="text-center">
         <CardTitle>Stress Test Scenarios</CardTitle>
       </CardHeader>
       <CardContent>
@@ -26,7 +26,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr>
                 <th className="px-6 py-3">Metric</th>
                 {scenarios.map((s) => (
-                  <th key={s.name} className="px-6 py-3">{s.name}</th>
+                  <th key={s.name} className="px-6 py-3 text-center">{s.name}</th>
                 ))}
               </tr>
             </thead>
@@ -34,13 +34,13 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-foreground">Monthly Payment</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className="px-6 py-4">€{s.monthlyPayment.toFixed(2)}</td>
+                  <td key={s.name} className="px-6 py-4 text-center">€{s.monthlyPayment.toFixed(2)}</td>
                 ))}
               </tr>
               <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-foreground">DTI Ratio</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className={`px-6 py-4 ${s.totalDTI > 40 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
+                  <td key={s.name} className={`px-6 py-4 text-center ${s.totalDTI > 40 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
                     {s.totalDTI.toFixed(1)}%
                   </td>
                 ))}
@@ -48,7 +48,7 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-foreground">Monthly Surplus</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className={`px-6 py-4 ${s.monthlySurplus < 0 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
+                  <td key={s.name} className={`px-6 py-4 text-center ${s.monthlySurplus < 0 ? 'text-red-600 font-bold' : 'text-foreground'}`}>
                     €{s.monthlySurplus.toFixed(2)}
                   </td>
                 ))}
@@ -56,11 +56,11 @@ export function StressTestTable({ results, isFixedRate }: StressTestTableProps) 
               <tr className="bg-card">
                 <td className="px-6 py-4 font-medium text-foreground">Status</td>
                 {scenarios.map((s) => (
-                  <td key={s.name} className="px-6 py-4">
+                  <td key={s.name} className="px-6 py-4 text-center">
                     {s.isAffordable ? (
-                      <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded">Pass</span>
+                      <span className="inline-flex items-center justify-center bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded min-w-[60px]">Pass</span>
                     ) : (
-                      <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Fail</span>
+                      <span className="inline-flex items-center justify-center bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-medium px-2.5 py-0.5 rounded min-w-[60px]">Fail</span>
                     )}
                   </td>
                 ))}

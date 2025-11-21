@@ -10,12 +10,13 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className = '', label, error, helperText, id, ...props }, ref) => {
-    const inputId = id || React.useId();
+    const generatedId = React.useId();
+    const inputId = id || generatedId;
 
     const { onFocus, onChange, value, clearOnFocus, ...rest } = props as InputProps & {
       onFocus?: React.FocusEventHandler<HTMLInputElement>;
       onChange?: React.ChangeEventHandler<HTMLInputElement>;
-      value?: any;
+      value?: string | number | readonly string[];
     };
 
     const handleFocus: React.FocusEventHandler<HTMLInputElement> = (e) => {
@@ -26,11 +27,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         } else if (onChange) {
           // If controlled, call onChange with empty value to let parent update
           const syntheticEvent = {
-            ...({} as React.SyntheticEvent),
-            target: e.target,
+            ...e,
+            target: { ...e.target, value: '' },
+            currentTarget: { ...e.currentTarget, value: '' },
           } as unknown as React.ChangeEvent<HTMLInputElement>;
-          // @ts-ignore set synthetic target value
-          syntheticEvent.target = { ...(e.target as any), value: '' };
           onChange(syntheticEvent);
         }
       }

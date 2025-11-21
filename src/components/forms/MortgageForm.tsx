@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mortgageSchema, MortgageFormData } from '@/lib/schemas/mortgage-schema';
 import { Input } from '@/components/ui/Input';
@@ -17,10 +17,10 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    control,
     setValue,
   } = useForm<MortgageFormData>({
-    resolver: zodResolver(mortgageSchema) as any,
+    resolver: zodResolver(mortgageSchema) as Resolver<MortgageFormData>,
     defaultValues: {
       homePrice: 0,
       downPayment: 0,
@@ -38,16 +38,21 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
     },
   });
 
-  const useCollateral = watch('useCollateral');
-  const additionalResourceMethod = watch('additionalResourceMethod');
-  const homePrice = watch('homePrice');
-  const downPayment = watch('downPayment');
-  const parentPropertyValue = watch('parentPropertyValue');
-  const rateType = watch('rateType');
-  const euribor = watch('euribor');
-  const bankMargin = watch('bankMargin');
+  const values = useWatch({ control });
+  const {
+    useCollateral,
+    additionalResourceMethod,
+    homePrice,
+    downPayment,
+    parentPropertyValue,
+    rateType,
+    euribor,
+    bankMargin,
+    consumerLoanTerm,
+    loanTerm,
+  } = values;
 
-  const ltv = homePrice > 0 ? ((homePrice - downPayment) / homePrice) * 100 : 0;
+  const ltv = (homePrice || 0) > 0 ? (((homePrice || 0) - (downPayment || 0)) / (homePrice || 0)) * 100 : 0;
   const needsCollateral = ltv > 80;
 
   // Sync useCollateral with additionalResourceMethod for backward compatibility
@@ -109,7 +114,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
                   />
                   <span className="font-semibold text-foreground">Collateral Property</span>
                 </div>
-                <span className="text-xs text-muted-foreground ml-8">Use another property (e.g. parents') to secure the loan.</span>
+                <span className="text-xs text-muted-foreground ml-8">Use another property (e.g. parents&apos;) to secure the loan.</span>
               </label>
               
               <label className={`relative flex cursor-pointer flex-col rounded-lg border-2 p-4 transition-all hover:border-primary/50 ${additionalResourceMethod === 'consumerLoan' ? 'border-primary bg-primary/5 shadow-sm' : 'border-muted bg-transparent'}`}>
@@ -139,7 +144,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
                     <span>⚠️</span>
                     <span>
                       Warning: Collateral value might be insufficient. 
-                      Needs to cover 20% of home price (€{(homePrice * 0.20).toFixed(0)}).
+                      Needs to cover 20% of home price (€{((homePrice || 0) * 0.20).toFixed(0)}).
                     </span>
                   </div>
                 )}
@@ -161,7 +166,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
                   min={1}
                   max={20}
                   step={1}
-                  valueDisplay={`${watch('consumerLoanTerm')} Years`}
+                  valueDisplay={`${consumerLoanTerm} Years`}
                   {...register('consumerLoanTerm', { valueAsNumber: true })}
                 />
               </div>
@@ -234,7 +239,7 @@ export function MortgageForm({ defaultValues, onSubmit, onBack }: MortgageFormPr
           min={5}
           max={30}
           step={1}
-          valueDisplay={`${watch('loanTerm')} Years`}
+          valueDisplay={`${loanTerm} Years`}
           {...register('loanTerm', { valueAsNumber: true })}
         />
         {errors.loanTerm && <p className="mt-1 text-sm text-destructive">{errors.loanTerm.message}</p>}

@@ -68,7 +68,7 @@ export default function CalculatorPage() {
           const idx = STEPS.findIndex(s => s.id === stepParam);
           if (idx >= 0) setCurrentStepIndex(idx);
         }
-      } catch (e) {
+      } catch (_) {
         // ignore URL parsing errors
       }
 
@@ -80,7 +80,7 @@ export default function CalculatorPage() {
 
   const currentStep = STEPS[currentStepIndex];
 
-  const handleNext = (stepData: any) => {
+  const handleNext = (stepData: Partial<CalculatorData>) => {
     const updatedData = { ...formData, [currentStep.id]: stepData };
     setFormData(updatedData);
 
