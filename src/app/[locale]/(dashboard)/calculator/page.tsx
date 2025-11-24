@@ -131,12 +131,27 @@ export default function CalculatorPage() {
           </div>
         </div>
         
-        {/* Progress Bar - Liquid Design */}
-        <div className="relative h-2 w-full bg-secondary/50 rounded-full overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
-          <div 
-            className="absolute top-0 left-0 h-full bg-primary transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" 
-            style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%`, boxShadow: '0 6px 18px rgba(0,0,0,0.08)'}}
-          />
+        {/* 3D Animated Progress Bar */}
+        <div className="w-full bg-secondary/30 rounded-full h-4 p-0.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] border border-white/10 backdrop-blur-sm relative overflow-hidden">
+          <motion.div 
+            animate={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="h-full rounded-full relative overflow-hidden bg-primary"
+            style={{
+              boxShadow: '0 2px 5px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4)'
+            }}
+          >
+            {/* Top Highlight for 3D effect */}
+            <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent opacity-70" />
+            
+            {/* Animated Shimmer */}
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+              initial={{ x: '-100%' }}
+              animate={{ x: '200%' }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 1 }}
+            />
+          </motion.div>
         </div>
       </div>
 

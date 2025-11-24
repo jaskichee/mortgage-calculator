@@ -3,9 +3,8 @@ import {getMessages, getTranslations} from 'next-intl/server';
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next"
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { SettingsPill } from "@/components/ui/SettingsPill";
 import "../globals.css";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BackgroundOrbs } from "@/components/ui/BackgroundOrbs";
 
@@ -41,9 +40,8 @@ export default async function RootLayout({
           >
             <BackgroundOrbs />
             <div className="relative z-10">
-              <div className="absolute top-4 right-4 flex gap-2 z-50 print:hidden">
-                <LanguageSwitcher />
-                <ThemeToggle />
+              <div className="fixed bottom-6 right-6 z-50 print:hidden">
+                <SettingsPill />
               </div>
               {children}
               <SpeedInsights />

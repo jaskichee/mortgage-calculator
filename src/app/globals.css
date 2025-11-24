@@ -244,10 +244,10 @@ body::after {
 }
 
 /* Global smooth transition for theme changes - OPTIMIZED */
-/* Only apply to specific properties on root elements to avoid performance hit */
-body {
-  transition-property: background-color, color;
-  transition-duration: 0.5s;
+/* Apply to all elements for a full-page transition effect */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
 }
 
