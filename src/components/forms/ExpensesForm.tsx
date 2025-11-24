@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { expensesSchema, ExpensesFormData } from '@/lib/schemas/expenses-schema';
+import { getExpensesSchema, ExpensesFormData } from '@/lib/schemas/expenses-schema';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { useTranslations } from 'next-intl';
 
 interface ExpensesFormProps {
   defaultValues?: Partial<ExpensesFormData>;
@@ -12,13 +13,18 @@ interface ExpensesFormProps {
 }
 
 export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormProps) {
+  const t = useTranslations('Calculator.expenses');
+  const tCommon = useTranslations('Common');
+  const tValidation = useTranslations('Validation');
+  const schema = getExpensesSchema(tValidation);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
   } = useForm<ExpensesFormData>({
-    resolver: zodResolver(expensesSchema) as Resolver<ExpensesFormData>,
+    resolver: zodResolver(schema) as Resolver<ExpensesFormData>,
     defaultValues: {
       utilities: 0,
       insurance: 0,
@@ -38,30 +44,30 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
-          <h3 className="font-medium text-foreground">Fixed Expenses</h3>
+          <h3 className="font-medium text-foreground">{t('fixed.title')}</h3>
           <Input clearOnFocus
-            label="Utilities (Electricity, Water, Heating)"
+            label={t('fixed.utilities')}
             type="number"
             {...register('utilities', { valueAsNumber: true })}
             error={errors.utilities?.message}
           />
           <Input clearOnFocus
-            label="Insurance (Life, Home, Car)"
+            label={t('fixed.insurance')}
             type="number"
             {...register('insurance', { valueAsNumber: true })}
             error={errors.insurance?.message}
           />
           {(values.insurance || 0) > 0 && (
              <Input clearOnFocus
-              label="Life Insurance Duration (Years)"
-              helperText="If applicable, how many years left? (0 for indefinite)"
+              label={t('fixed.lifeInsuranceDuration')}
+              helperText={t('fixed.lifeInsuranceDurationHelper')}
               type="number"
               {...register('lifeInsuranceDuration', { valueAsNumber: true })}
               error={errors.lifeInsuranceDuration?.message}
             />
           )}
           <Input clearOnFocus
-            label="Subscriptions (Phone, Internet, Netflix)"
+            label={t('fixed.subscriptions')}
             type="number"
             {...register('subscriptions', { valueAsNumber: true })}
             error={errors.subscriptions?.message}
@@ -69,27 +75,27 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-medium text-foreground">Variable Expenses</h3>
+          <h3 className="font-medium text-foreground">{t('variable.title')}</h3>
           <Input clearOnFocus
-            label="Groceries & Household Items"
+            label={t('variable.groceries')}
             type="number"
             {...register('groceries', { valueAsNumber: true })}
             error={errors.groceries?.message}
           />
           <Input clearOnFocus
-            label="Transportation (Fuel, Public Transport)"
+            label={t('variable.transportation')}
             type="number"
             {...register('transportation', { valueAsNumber: true })}
             error={errors.transportation?.message}
           />
           <Input clearOnFocus
-            label="Entertainment & Dining Out"
+            label={t('variable.entertainment')}
             type="number"
             {...register('entertainment', { valueAsNumber: true })}
             error={errors.entertainment?.message}
           />
           <Input clearOnFocus
-            label="Other Expenses"
+            label={t('variable.other')}
             type="number"
             {...register('other', { valueAsNumber: true })}
             error={errors.other?.message}
@@ -98,12 +104,12 @@ export function ExpensesForm({ defaultValues, onSubmit, onBack }: ExpensesFormPr
       </div>
 
       <div className="bg-muted/50 p-4 rounded-md border border-border">
-        <p className="text-lg font-semibold text-foreground">Total Monthly Expenses: €{totalExpenses.toFixed(2)}</p>
+        <p className="text-lg font-semibold text-foreground">{t('total')}: €{totalExpenses.toFixed(2)}</p>
       </div>
 
       <div className="flex gap-4">
-        <Button type="button" variant="outline" onClick={onBack} className="w-full">Back</Button>
-        <Button type="submit" className="w-full">Next Step</Button>
+        <Button type="button" variant="outline" onClick={onBack} className="w-full">{tCommon('back')}</Button>
+        <Button type="submit" className="w-full">{tCommon('nextStep')}</Button>
       </div>
     </form>
   );

@@ -1,25 +1,25 @@
 import { z } from 'zod';
 
-export const mortgageSchema = z.object({
-  homePrice: z.number().min(1, 'Home price is required').refine(val => !isNaN(val), { message: "Please enter a valid number" }),
-  downPayment: z.number().min(0, 'Down payment cannot be negative').default(0).refine(val => !isNaN(val), { message: "Please enter a valid number" }),
+export const getMortgageSchema = (t: (key: string, values?: Record<string, string | number | Date>) => string) => z.object({
+  homePrice: z.number({ message: t('validNumber') }).min(10000, t('minHomePrice')),
+  downPayment: z.number({ message: t('validNumber') }).min(0, t('minDownPayment')).default(0),
   rateType: z.enum(['fixed', 'variable']).default('fixed'),
-  interestRate: z.number().min(0.1, 'Interest rate must be positive').max(15, 'Interest rate seems too high').refine(val => !isNaN(val), { message: "Please enter a valid number" }).optional(), // For fixed
-  euribor: z.number().min(-1).max(10).refine(val => !isNaN(val), { message: "Please enter a valid number" }).optional(), // For variable
-  bankMargin: z.number().min(0).max(10).refine(val => !isNaN(val), { message: "Please enter a valid number" }).optional(), // For variable
-  loanTerm: z.number().min(5, 'Minimum term is 5 years').max(30, 'Maximum term is 30 years').default(30).refine(val => !isNaN(val), { message: "Please enter a valid number" }),
+  interestRate: z.number({ message: t('validNumber') }).min(0.1, t('minInterestRate')).max(15, t('maxInterestRate')).optional(), // For fixed
+  euribor: z.number({ message: t('validNumber') }).min(-1).max(10).optional(), // For variable
+  bankMargin: z.number({ message: t('validNumber') }).min(0).max(10).optional(), // For variable
+  loanTerm: z.number({ message: t('validNumber') }).min(5, t('minLoanTerm', { years: 5 })).max(30, t('maxLoanTerm', { years: 30 })).default(30),
   useCollateral: z.boolean().default(false),
-  additionalResourceMethod: z.enum(['collateral', 'consumerLoan', 'none']).default('none'),
-  parentPropertyValue: z.number().refine(val => !isNaN(val), { message: "Please enter a valid number" }).optional(),
-  consumerLoanInterestRate: z.number().min(0, 'Interest rate must be positive').max(20, 'Interest rate seems too high').refine(val => !isNaN(val), { message: "Please enter a valid number" }).optional(),
-  consumerLoanTerm: z.number().min(1, 'Minimum term is 1 year').max(20, 'Maximum term is 20 years').default(10).refine(val => !isNaN(val), { message: "Please enter a valid number" }),
+  additionalResourceMethod: z.enum(['collateral', 'consumerLoan', 'guarantor', 'none']).default('none'),
+  parentPropertyValue: z.number({ message: t('validNumber') }).default(0),
+  consumerLoanInterestRate: z.number({ message: t('validNumber') }).min(0, t('minInterestRate')).max(20, t('maxInterestRate')).optional(),
+  consumerLoanTerm: z.number({ message: t('validNumber') }).min(1, t('minLoanTerm', { years: 1 })).max(20, t('maxLoanTerm', { years: 20 })).default(10),
 }).refine((data) => {
-  if (data.useCollateral || data.additionalResourceMethod === 'collateral') {
+  if (data.useCollateral || data.additionalResourceMethod === 'collateral' || data.additionalResourceMethod === 'guarantor') {
     return data.parentPropertyValue !== undefined && data.parentPropertyValue > 0;
   }
   return true;
 }, {
-  message: "Collateral property value is required",
+  message: t('collateralRequired'),
   path: ["parentPropertyValue"],
 }).refine((data) => {
   if (data.additionalResourceMethod === 'consumerLoan') {
@@ -27,7 +27,7 @@ export const mortgageSchema = z.object({
   }
   return true;
 }, {
-  message: "Consumer loan interest rate is required",
+  message: t('consumerLoanRateRequired'),
   path: ["consumerLoanInterestRate"],
 }).refine((data) => {
   if (data.downPayment > data.homePrice) {
@@ -35,7 +35,7 @@ export const mortgageSchema = z.object({
   }
   return true;
 }, {
-  message: "Down payment cannot exceed home price",
+  message: t('maxDownPayment'),
   path: ["downPayment"],
 }).refine((data) => {
   if (data.rateType === 'fixed') {
@@ -43,7 +43,7 @@ export const mortgageSchema = z.object({
   }
   return true;
 }, {
-  message: "Fixed interest rate is required",
+  message: t('required'),
   path: ["interestRate"],
 }).refine((data) => {
   if (data.rateType === 'variable') {
@@ -51,8 +51,8 @@ export const mortgageSchema = z.object({
   }
   return true;
 }, {
-  message: "EURIBOR and Bank Margin are required for variable rate",
+  message: t('required'),
   path: ["bankMargin"],
 });
 
-export type MortgageFormData = z.infer<typeof mortgageSchema>;
+export type MortgageFormData = z.infer<ReturnType<typeof getMortgageSchema>>;

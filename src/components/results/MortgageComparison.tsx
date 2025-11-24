@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { useTranslations } from 'next-intl';
 
 interface MortgageOption {
   type: string;
@@ -18,17 +19,18 @@ interface MortgageOption {
 
 interface MortgageComparisonProps {
   standard: MortgageOption;
-  collateral: MortgageOption;
+  collateral?: MortgageOption;
   userSelection?: MortgageOption;
   consumerLoanOption?: MortgageOption;
 }
 
 export function MortgageComparison({ standard, collateral, userSelection, consumerLoanOption }: MortgageComparisonProps) {
+  const t = useTranslations('Results.comparison');
   const [showConsumerDetails, setShowConsumerDetails] = useState(false);
 
   const showUserSelection = userSelection && 
     userSelection.downPayment !== standard.downPayment && 
-    userSelection.downPayment !== collateral.downPayment;
+    (!collateral || userSelection.downPayment !== collateral.downPayment);
 
   // Determine which option is selected to ensure it's visible on mobile
   const isConsumerSelected = consumerLoanOption && userSelection && 
@@ -46,97 +48,97 @@ export function MortgageComparison({ standard, collateral, userSelection, consum
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle>Mortgage Options Comparison</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-muted-foreground uppercase border-b border-white/10">
               <tr>
-                <th className="px-6 py-3">Metric</th>
-                <th className="px-6 py-3 text-center">Standard (20% Down)</th>
-                <th className="px-6 py-3 text-center">With Collateral (0% Down)</th>
-                {consumerLoanOption && <th className={`px-6 py-3 text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>With Consumer Loan</th>}
-                {showUserSelection && <th className="px-6 py-3 text-center">Your Selection</th>}
+                <th className="px-3 py-2 sm:px-6 sm:py-3">{t('metric')}</th>
+                <th className="px-3 py-2 sm:px-6 sm:py-3 text-center">{t('standard')}</th>
+                {collateral && <th className="px-3 py-2 sm:px-6 sm:py-3 text-center">{t('collateral')}</th>}
+                {consumerLoanOption && <th className={`px-3 py-2 sm:px-6 sm:py-3 text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{t('consumerLoan')}</th>}
+                {showUserSelection && <th className="px-3 py-2 sm:px-6 sm:py-3 text-center">{t('userSelection')}</th>}
               </tr>
             </thead>
             <tbody>
               <tr className="bg-card border-b border-border">
-                <td className="px-6 py-4 font-medium text-foreground">Down Payment</td>
-                <td className="px-6 py-4 text-foreground text-center">€{standard.downPayment.toLocaleString()}</td>
-                <td className="px-6 py-4 font-bold text-emerald-600 dark:text-emerald-400 text-center">€{collateral.downPayment.toLocaleString()}</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.downPayment.toLocaleString()}</td>}
-                {showUserSelection && <td className="px-6 py-4 text-primary font-bold text-center">€{userSelection.downPayment.toLocaleString()}</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground">{t('downPayment')}</td>
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{standard.downPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 font-bold text-emerald-600 dark:text-emerald-400 text-center">€{collateral.downPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.downPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-primary font-bold text-center">€{userSelection.downPayment.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
               </tr>
               <tr className="bg-card border-b border-border">
-                <td className="px-6 py-4 font-medium text-foreground">Loan Amount</td>
-                <td className="px-6 py-4 text-foreground text-center">€{standard.loanAmount.toLocaleString()}</td>
-                <td className="px-6 py-4 text-foreground text-center">€{collateral.loanAmount.toLocaleString()}</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.loanAmount.toLocaleString()}</td>}
-                {showUserSelection && <td className="px-6 py-4 text-foreground text-center">€{userSelection.loanAmount.toLocaleString()}</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground">{t('loanAmount')}</td>
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{standard.loanAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{collateral.loanAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.loanAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{userSelection.loanAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
               </tr>
               <tr className="bg-card border-b border-border">
-                <td className="px-6 py-4 font-medium text-foreground">Loan Term</td>
-                <td className="px-6 py-4 text-foreground text-center">{standard.loanTerm} years</td>
-                <td className="px-6 py-4 text-foreground text-center">{collateral.loanTerm} years</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{consumerLoanOption.loanTerm} years</td>}
-                {showUserSelection && <td className="px-6 py-4 text-foreground text-center">{userSelection.loanTerm} years</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground">{t('loanTerm')}</td>
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">{t('years', { count: standard.loanTerm })}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">{t('years', { count: collateral.loanTerm })}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{t('years', { count: consumerLoanOption.loanTerm })}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">{t('years', { count: userSelection.loanTerm })}</td>}
               </tr>
               <tr 
                 className="bg-card border-b border-border cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setShowConsumerDetails(!showConsumerDetails)}
                 title="Click to toggle consumer loan details"
               >
-                <td className="px-6 py-4 font-medium text-foreground flex items-center gap-2">
-                  Monthly Payment (Total)
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground flex items-center gap-2">
+                  {t('monthlyPayment')}
                   <span className={`text-[10px] text-muted-foreground ${toggleVisibilityClass}`}>{showConsumerDetails ? '▲' : '▼'}</span>
                 </td>
-                <td className="px-6 py-4 text-foreground text-center">€{standard.monthlyPayment.toFixed(2)}</td>
-                <td className="px-6 py-4 text-foreground text-center">€{collateral.monthlyPayment.toFixed(2)}</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground font-bold text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.monthlyPayment.toFixed(2)}</td>}
-                {showUserSelection && <td className="px-6 py-4 text-foreground text-center">€{userSelection.monthlyPayment.toFixed(2)}</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{standard.monthlyPayment.toFixed(2)}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{collateral.monthlyPayment.toFixed(2)}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground font-bold text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.monthlyPayment.toFixed(2)}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{userSelection.monthlyPayment.toFixed(2)}</td>}
               </tr>
               
               {/* Consumer Loan Breakdown */}
               {showConsumerDetails && (consumerLoanOption?.consumerLoanMonthlyPayment || userSelection?.consumerLoanMonthlyPayment) && (
                 <>
                   <tr className="bg-muted/20 border-b border-border">
-                    <td className="px-6 py-1 font-medium text-muted-foreground pl-10 text-xs">↳ Consumer Loan Part</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    {consumerLoanOption && <td className={`px-6 py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.consumerLoanMonthlyPayment?.toFixed(2)}</td>}
-                    {showUserSelection && <td className="px-6 py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanMonthlyPayment ? `€${userSelection.consumerLoanMonthlyPayment.toFixed(2)}` : '-'}</td>}
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 font-medium text-muted-foreground pl-6 sm:pl-10 text-xs">{t('consumerLoanPart')}</td>
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>
+                    {collateral && <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>}
+                    {consumerLoanOption && <td className={`px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.consumerLoanMonthlyPayment?.toFixed(2)}</td>}
+                    {showUserSelection && <td className="px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanMonthlyPayment ? `€${userSelection.consumerLoanMonthlyPayment.toFixed(2)}` : '-'}</td>}
                   </tr>
                   <tr className="bg-muted/20 border-b border-border">
-                    <td className="px-6 py-1 font-medium text-muted-foreground pl-10 text-xs">↳ Consumer Loan Rate</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    {consumerLoanOption && <td className={`px-6 py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{consumerLoanOption.consumerLoanRate}%</td>}
-                    {showUserSelection && <td className="px-6 py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanRate ? `${userSelection.consumerLoanRate}%` : '-'}</td>}
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 font-medium text-muted-foreground pl-6 sm:pl-10 text-xs">{t('consumerLoanRate')}</td>
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>
+                    {collateral && <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>}
+                    {consumerLoanOption && <td className={`px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{consumerLoanOption.consumerLoanRate}%</td>}
+                    {showUserSelection && <td className="px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanRate ? `${userSelection.consumerLoanRate}%` : '-'}</td>}
                   </tr>
                   <tr className="bg-muted/20 border-b border-border">
-                    <td className="px-6 py-1 font-medium text-muted-foreground pl-10 text-xs">↳ Consumer Loan Length</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    <td className="px-6 py-1 text-muted-foreground text-xs text-center">-</td>
-                    {consumerLoanOption && <td className={`px-6 py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{consumerLoanOption.consumerLoanTerm} years</td>}
-                    {showUserSelection && <td className="px-6 py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanTerm ? `${userSelection.consumerLoanTerm} years` : '-'}</td>}
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 font-medium text-muted-foreground pl-6 sm:pl-10 text-xs">{t('consumerLoanLength')}</td>
+                    <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>
+                    {collateral && <td className="px-3 py-1 sm:px-6 sm:py-1 text-muted-foreground text-xs text-center">-</td>}
+                    {consumerLoanOption && <td className={`px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>{t('years', { count: consumerLoanOption.consumerLoanTerm ?? 0 })}</td>}
+                    {showUserSelection && <td className="px-3 py-1 sm:px-6 sm:py-1 text-foreground text-xs text-center">{userSelection?.consumerLoanTerm ? t('years', { count: userSelection.consumerLoanTerm }) : '-'}</td>}
                   </tr>
                 </>
               )}
 
               <tr className="bg-card border-b border-border">
-                <td className="px-6 py-4 font-medium text-foreground">Total Interest</td>
-                <td className="px-6 py-4 text-foreground text-center">€{standard.totalInterest.toLocaleString()}</td>
-                <td className="px-6 py-4 text-foreground text-center">€{collateral.totalInterest.toLocaleString()}</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.totalInterest.toLocaleString()}</td>}
-                {showUserSelection && <td className="px-6 py-4 text-foreground text-center">€{userSelection.totalInterest.toLocaleString()}</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground">{t('totalInterest')}</td>
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{standard.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{collateral.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{userSelection.totalInterest.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
               </tr>
               <tr className="bg-card">
-                <td className="px-6 py-4 font-medium text-foreground">Total Cost</td>
-                <td className="px-6 py-4 text-foreground text-center">€{standard.totalCost.toLocaleString()}</td>
-                <td className="px-6 py-4 text-foreground text-center">€{collateral.totalCost.toLocaleString()}</td>
-                {consumerLoanOption && <td className={`px-6 py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.totalCost.toLocaleString()}</td>}
-                {showUserSelection && <td className="px-6 py-4 text-foreground text-center">€{userSelection.totalCost.toLocaleString()}</td>}
+                <td className="px-3 py-2 sm:px-6 sm:py-4 font-medium text-foreground">{t('totalCost')}</td>
+                <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{standard.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+                {collateral && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{collateral.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {consumerLoanOption && <td className={`px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center ${isConsumerSelected ? '' : 'hidden sm:table-cell'}`}>€{consumerLoanOption.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
+                {showUserSelection && <td className="px-3 py-2 sm:px-6 sm:py-4 text-foreground text-center">€{userSelection.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>}
               </tr>
             </tbody>
           </table>

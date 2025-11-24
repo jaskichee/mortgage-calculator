@@ -1,13 +1,14 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface CashFlowData {
   name: string;
-  Income: number;
-  Expenses: number;
-  Debts: number;
-  Mortgage: number;
-  Leftover: number;
+  income: number;
+  expenses: number;
+  debts: number;
+  mortgage: number;
+  leftover: number;
 }
 
 interface CashFlowChartProps {
@@ -43,8 +44,10 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export function CashFlowChart({ data }: CashFlowChartProps) {
+  const t = useTranslations('Results.charts.cashFlowChart');
+
   return (
-    <div className="h-64 sm:h-full w-full min-h-[300px]">
+    <div className="h-64 sm:h-96 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
           <defs>
@@ -84,10 +87,10 @@ export function CashFlowChart({ data }: CashFlowChartProps) {
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--accent)' }} />
           <Legend wrapperStyle={{ paddingTop: '20px' }} />
-          <Bar dataKey="Expenses" stackId="a" fill="url(#colorExpenses)" radius={[0, 0, 4, 4]} />
-          <Bar dataKey="Debts" stackId="a" fill="url(#colorDebts)" />
-          <Bar dataKey="Mortgage" stackId="a" fill="url(#colorMortgage)" />
-          <Bar dataKey="Leftover" stackId="a" fill="url(#colorLeftover)" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="expenses" stackId="a" fill="url(#colorExpenses)" name={t('expenses')} radius={[0, 0, 4, 4]} />
+          <Bar dataKey="debts" stackId="a" fill="url(#colorDebts)" name={t('debts')} />
+          <Bar dataKey="mortgage" stackId="a" fill="url(#colorMortgage)" name={t('mortgage')} />
+          <Bar dataKey="leftover" stackId="a" fill="url(#colorLeftover)" name={t('leftover')} radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

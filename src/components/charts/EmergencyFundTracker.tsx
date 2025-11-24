@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface EmergencyFundTrackerProps {
   currentSavings: number;
@@ -7,6 +8,7 @@ interface EmergencyFundTrackerProps {
 }
 
 export function EmergencyFundTracker({ currentSavings, targetAmount, monthlyContribution }: EmergencyFundTrackerProps) {
+  const t = useTranslations('Results.emergencyFund');
   const progress = Math.min(100, (currentSavings / targetAmount) * 100);
   const shortfall = Math.max(0, targetAmount - currentSavings);
   const monthsToGoal = monthlyContribution > 0 ? Math.ceil(shortfall / monthlyContribution) : Infinity;
@@ -15,11 +17,11 @@ export function EmergencyFundTracker({ currentSavings, targetAmount, monthlyCont
     <div className="space-y-4">
       <div className="flex justify-between items-end">
         <div>
-          <div className="text-sm text-muted-foreground">Current Savings</div>
+          <div className="text-sm text-muted-foreground">{t('currentSavings')}</div>
           <div className="text-2xl font-bold text-foreground">€{currentSavings.toLocaleString()}</div>
         </div>
         <div className="text-right">
-          <div className="text-sm text-muted-foreground">Target Goal</div>
+          <div className="text-sm text-muted-foreground">{t('targetGoal')}</div>
           <div className="text-2xl font-bold text-foreground">€{targetAmount.toLocaleString()}</div>
         </div>
       </div>
@@ -33,14 +35,14 @@ export function EmergencyFundTracker({ currentSavings, targetAmount, monthlyCont
 
       <div className="flex justify-between text-sm">
         <div className="text-muted-foreground">
-          {progress.toFixed(1)}% Funded
+          {progress.toFixed(1)}{t('funded')}
         </div>
         <div className="text-muted-foreground">
           {progress >= 100 
-            ? 'Goal Reached!' 
+            ? t('goalReached') 
             : monthlyContribution > 0 
-              ? `${monthsToGoal} months to reach goal` 
-              : 'No monthly contribution'}
+              ? t('monthsToGoal', { months: monthsToGoal }) 
+              : t('noContribution')}
         </div>
       </div>
     </div>

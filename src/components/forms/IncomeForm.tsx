@@ -1,10 +1,11 @@
 import React from 'react';
 import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { incomeSchema, IncomeFormData } from '@/lib/schemas/income-schema';
+import { getIncomeSchema, IncomeFormData } from '@/lib/schemas/income-schema';
 import { Input } from '@/components/ui/Input';
 import { Slider } from '@/components/ui/Slider';
 import { Button } from '@/components/ui/Button';
+import { useTranslations } from 'next-intl';
 
 interface IncomeFormProps {
   defaultValues?: Partial<IncomeFormData>;
@@ -12,6 +13,10 @@ interface IncomeFormProps {
 }
 
 export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
+  const t = useTranslations('Calculator.income');
+  const tValidation = useTranslations('Validation');
+  const schema = getIncomeSchema(tValidation);
+
   const {
     register,
     handleSubmit,
@@ -19,7 +24,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
     setValue,
     formState: { errors },
   } = useForm<IncomeFormData>({
-    resolver: zodResolver(incomeSchema) as Resolver<IncomeFormData>,
+    resolver: zodResolver(schema) as Resolver<IncomeFormData>,
     defaultValues: {
       primaryIncome: 0,
       primaryBonuses: 0,
@@ -48,14 +53,14 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
   // Or better, we render multiple inputs and sum them up.
   
   // Actually, let's just update the label to be plural if count > 2
-  const otherLabel = workingMembersCount > 2 ? "Total Monthly Net Income (All Others)" : "Monthly Net Income (2nd Member)";
-  const otherBonusLabel = workingMembersCount > 2 ? "Total Annual Bonuses (All Others)" : "Annual Bonuses (2nd Member)";
+  const otherLabel = workingMembersCount > 2 ? t('other.netIncomeTotal') : t('other.netIncome');
+  const otherBonusLabel = workingMembersCount > 2 ? t('other.bonusesTotal') : t('other.bonuses');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-6">
         <Slider
-          label="Number of Working Household Members"
+          label={t('workingMembers')}
           min={1}
           max={5}
           step={1}
@@ -68,16 +73,16 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
         />
 
         <div className="space-y-4 p-4 border border-border rounded-md bg-muted/20">
-          <h3 className="font-medium text-foreground">Primary Applicant</h3>
+          <h3 className="font-medium text-foreground">{t('primary.title')}</h3>
           <Input clearOnFocus
-            label="Monthly Net Income (€)"
+            label={t('primary.netIncome')}
             type="number"
             {...register('primaryIncome', { valueAsNumber: true })}
             error={errors.primaryIncome?.message}
           />
           <Input clearOnFocus
-            label="Annual Bonuses (Vacation + Christmas) (€)"
-            helperText="Total annual amount of Regres + Božičnica (Net)"
+            label={t('primary.bonuses')}
+            helperText={t('primary.bonusesHelper')}
             type="number"
             {...register('primaryBonuses', { valueAsNumber: true })}
             error={errors.primaryBonuses?.message}
@@ -86,7 +91,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
         
         {workingMembersCount > 1 && (
           <div className="space-y-4 p-4 border border-border rounded-md bg-muted/20">
-            <h3 className="font-medium text-foreground">Other Household Members {workingMembersCount > 2 ? `(Total for ${workingMembersCount - 1} people)` : ''}</h3>
+            <h3 className="font-medium text-foreground">{workingMembersCount > 2 ? t('other.titleTotal', { count: workingMembersCount - 1 }) : t('other.title')}</h3>
             <Input clearOnFocus
               label={otherLabel}
               type="number"
@@ -95,7 +100,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
             />
             <Input clearOnFocus
               label={otherBonusLabel}
-              helperText="Total annual amount of Regres + Božičnica (Net)"
+              helperText={t('other.bonusesHelper')}
               type="number"
               {...register('otherBonuses', { valueAsNumber: true })}
               error={errors.otherBonuses?.message}
@@ -104,7 +109,7 @@ export function IncomeForm({ defaultValues, onSubmit }: IncomeFormProps) {
         )}
       </div>
 
-      <Button type="submit" className="w-full">Next Step</Button>
+      <Button type="submit" className="w-full">{t('submit')}</Button>
     </form>
   );
 }

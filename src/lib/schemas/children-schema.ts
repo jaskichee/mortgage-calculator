@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-export const childSchema = z.object({
+export const getChildSchema = (t: (key: string) => string) => z.object({
   birthDate: z.date({
-    message: "Birth date is required",
+    message: t('required'),
   }),
 });
 
-export const childrenSchema = z.object({
-  children: z.array(childSchema),
+export const getChildrenSchema = (t: (key: string) => string) => z.object({
+  children: z.array(getChildSchema(t)),
 });
 
-export type ChildrenFormData = z.infer<typeof childrenSchema>;
+export type ChildrenFormData = z.infer<ReturnType<typeof getChildrenSchema>>;

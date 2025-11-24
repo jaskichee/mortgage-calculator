@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 interface DTIGaugeProps {
@@ -7,6 +8,7 @@ interface DTIGaugeProps {
 }
 
 export function DTIGauge({ value, max = 60 }: DTIGaugeProps) {
+  const t = useTranslations('Results.charts.dtiGauge');
   // Ensure value is within bounds
   const clampedValue = Math.min(Math.max(0, value), max);
   
@@ -36,7 +38,7 @@ export function DTIGauge({ value, max = 60 }: DTIGaugeProps) {
           {value.toFixed(1)}%
         </div>
         <div className="text-sm font-medium text-muted-foreground mt-1 px-3 py-1 rounded-full bg-muted/50 border border-border backdrop-blur-md">
-          Limit: 40%
+          {t('limit')}
         </div>
       </div>
       

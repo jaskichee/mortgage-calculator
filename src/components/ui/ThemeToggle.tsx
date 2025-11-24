@@ -4,10 +4,12 @@ import React from 'react';
 import { useTheme } from 'next-themes';
 import { Button } from './Button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const t = useTranslations('Common');
 
   React.useEffect(() => {
     setMounted(true);
@@ -30,7 +32,7 @@ export function ThemeToggle() {
         size="sm"
         onClick={toggleTheme}
         className="rounded-full !p-0 glass-panel hover:bg-white/20 border border-white/10 shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all duration-300 w-10 h-10 sm:w-12 sm:h-12"
-        aria-label="Toggle theme"
+        aria-label={t('toggleTheme')}
       >
         <AnimatePresence mode="wait" initial={false}>
           {isDark ? (

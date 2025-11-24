@@ -1,11 +1,12 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface StressTestChartProps {
   data: Array<{
     year: number;
     baseline: number;
-    rateIncrease: number;
+    rateIncrease: number | null;
     jobLoss: number;
   }>;
 }
@@ -21,15 +22,16 @@ interface CustomTooltipProps {
 }
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-  if (active && payload && payload.length) {
+  const t = useTranslations('Results.charts.stressTestChart');
+  if (active && payload && payload.length && label !== undefined) {
     return (
       <div className="bg-popover/80 backdrop-blur-xl border border-border p-3 rounded-xl shadow-xl">
-        <p className="text-sm font-medium text-foreground mb-2">{`Year ${label}`}</p>
+        <p className="text-sm font-medium text-foreground mb-2">{t('year', { year: label })}</p>
         {payload.map((entry, index: number) => (
           <div key={index} className="flex items-center gap-2 text-xs mb-1">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
             <span className="text-muted-foreground">{entry.name}:</span>
-            <span className="font-mono text-foreground">€{Number(entry.value).toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+            <span className="font-mono text-foreground">€{Number(entry.value).toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
           </div>
         ))}
       </div>
@@ -39,6 +41,9 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export function StressTestChart({ data }: StressTestChartProps) {
+  const t = useTranslations('Results.charts.stressTestChart');
+  const showRateIncrease = data.some(d => d.rateIncrease !== null && d.rateIncrease !== undefined);
+
   return (
     <div className="h-64 sm:h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -46,7 +51,7 @@ export function StressTestChart({ data }: StressTestChartProps) {
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
           <XAxis 
             dataKey="year" 
-            label={{ value: 'Years', position: 'insideBottomRight', offset: -5, fill: 'var(--muted-foreground)' }} 
+            label={{ value: t('years'), position: 'insideBottomRight', offset: -5, fill: 'var(--muted-foreground)' }} 
             stroke="var(--muted-foreground)"
             tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }}
             tickLine={false}
@@ -67,25 +72,27 @@ export function StressTestChart({ data }: StressTestChartProps) {
             type="monotone" 
             dataKey="baseline" 
             stroke="#2dd4bf" 
-            name="Baseline" 
+            name={t('baseline')} 
             strokeWidth={3} 
             dot={false}
             activeDot={{ r: 6, strokeWidth: 0 }}
           />
-          <Line 
-            type="monotone" 
-            dataKey="rateIncrease" 
-            stroke="#facc15" 
-            name="Rate +2%" 
-            strokeWidth={3} 
-            dot={false}
-            activeDot={{ r: 6, strokeWidth: 0 }}
-          />
+          {showRateIncrease && (
+            <Line 
+              type="monotone" 
+              dataKey="rateIncrease" 
+              stroke="#facc15" 
+              name={t('rateIncrease')} 
+              strokeWidth={3} 
+              dot={false}
+              activeDot={{ r: 6, strokeWidth: 0 }}
+            />
+          )}
           <Line 
             type="monotone" 
             dataKey="jobLoss" 
             stroke="#f87171" 
-            name="Job Loss" 
+            name={t('jobLoss')} 
             strokeWidth={3} 
             dot={false}
             activeDot={{ r: 6, strokeWidth: 0 }}

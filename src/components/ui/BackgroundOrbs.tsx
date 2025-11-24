@@ -43,7 +43,7 @@ export function BackgroundOrbs() {
   const isDark = currentTheme === 'dark';
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none print:hidden" style={{ zIndex: 0 }}>
       {shadows.map((shadow, i) => (
         <div
           key={i}

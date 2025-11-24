@@ -3,53 +3,58 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Pragmatic Futurism - Light Theme */
-  /* Clean, airy, purposeful */
-  --background: #f8f9fa; /* Very subtle off-white for depth */
-  --foreground: #1a1d21; /* Soft black */
+  /* Vibrant Futurism - Light Theme */
+  /* Clean, airy, purposeful with subtle iridescence */
+  --background: #f8fafc;
+  --foreground: #0f172a;
 
-  /* Primary: Deep, authoritative but modern */
-  --primary: #2d3436;
+  /* Primary: Vibrant Blue-Indigo */
+  --primary: #4f46e5;
   --primary-foreground: #ffffff;
 
-  /* Secondary: Functional grey */
-  --secondary: #e9ecef;
-  --secondary-foreground: #1a1d21;
+  /* Secondary: Soft Cool Grey */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
 
-  /* Accent: Subtle highlight */
-  --accent: rgba(0, 0, 0, 0.04);
-  --accent-foreground: #1a1d21;
+  /* Accent: Iridescent Highlight */
+  --accent: rgba(79, 70, 229, 0.1);
+  --accent-foreground: #4f46e5;
 
-  /* Muted: De-emphasized text */
-  --muted: #f1f3f5;
-  --muted-foreground: #4b5563; /* Darker grey for better visibility */
+  /* Muted */
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
 
-  /* Destructive: Clear warning */
-  --destructive: #fa5252;
+  /* Destructive */
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
   /* Glass / Liquid Design Variables */
-  --card: rgba(255, 255, 255, 0.7);
-  --card-gradient-start: rgba(255, 255, 255, 0.85);
-  --card-gradient-end: rgba(255, 255, 255, 0.45);
-  --card-foreground: #1a1d21;
-  --card-border: rgba(0, 0, 0, 0.06); /* Subtle grey border for visibility on light bg */
+  --card: rgba(255, 255, 255, 0.65);
+  --card-gradient-start: rgba(255, 255, 255, 0.9);
+  --card-gradient-end: rgba(255, 255, 255, 0.5);
+  --card-foreground: #0f172a;
+  --card-border: rgba(255, 255, 255, 0.6);
+  --card-highlight: rgba(255, 255, 255, 0.8);
+  --card-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
   
-  --popover: rgba(255, 255, 255, 0.7);
-  --popover-foreground: #1a1d21;
+  --popover: rgba(255, 255, 255, 0.8);
+  --popover-foreground: #0f172a;
 
   /* Borders & Inputs */
-  --border: rgba(0, 0, 0, 0.1);
-  --input: rgba(255, 255, 255, 0.3);
-  --ring: rgba(45, 52, 54, 0.3);
+  --border: rgba(148, 163, 184, 0.2);
+  --input: rgba(255, 255, 255, 0.5);
+  --ring: rgba(79, 70, 229, 0.4);
 
-  --radius: 1.5rem; /* Even more rounded */
+  --radius: 1.5rem;
   
   /* Gradients & Effects */
-  --glass-blur: 24px;
+  --glass-blur: 20px;
   --glass-saturation: 180%;
 
-  --bg-gradient: linear-gradient(to bottom right, #ffffff, #e2e8f0);
+  /* Ambient Light - Light Theme: Soft Aurora */
+  --ambient-light: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%), 
+                   radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                   radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
 }
 
 @theme inline {
@@ -86,50 +91,54 @@
 }
 
 .dark {
-  /* Pragmatic Futurism - Dark Theme */
-  /* Deep, immersive, cyber-physical */
-  --background: #000000; /* Pure black for OLED depth */
-  --foreground: #e9ecef;
+  /* Vibrant Futurism - Dark Theme */
+  /* Deep, immersive, neon-lit */
+  --background: #020617; /* Deep Slate/Black */
+  --foreground: #f8fafc;
   
-  --primary: #ffffff;
+  --primary: #818cf8; /* Indigo 400 */
   --primary-foreground: #000000;
   
-  --secondary: rgba(255, 255, 255, 0.1);
-  --secondary-foreground: #ffffff;
+  --secondary: rgba(30, 41, 59, 0.5);
+  --secondary-foreground: #f8fafc;
   
-  --accent: rgba(255, 255, 255, 0.1);
-  --accent-foreground: #ffffff;
+  --accent: rgba(129, 140, 248, 0.15);
+  --accent-foreground: #818cf8;
   
-  --muted: rgba(255, 255, 255, 0.05);
-  --muted-foreground: #a0a0a0;
+  --muted: rgba(15, 23, 42, 0.5);
+  --muted-foreground: #94a3b8;
   
-  --card: rgba(30, 30, 30, 0.6);
-  --card-gradient-start: rgba(40, 44, 50, 0.75);
-  --card-gradient-end: rgba(20, 22, 25, 0.5);
-  --card-foreground: #ffffff;
-  --card-border: rgba(255, 255, 255, 0.08);
-  
-  --popover: rgba(20, 25, 30, 0.8);
-  --popover-foreground: #ffffff;
-  
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: rgba(255, 255, 255, 0.3);
-  
-  --destructive: #ff6b6b;
+  --destructive: #f87171;
   --destructive-foreground: #ffffff;
+  
+  /* Glass Variables */
+  --card: rgba(15, 23, 42, 0.6);
+  --card-gradient-start: rgba(30, 41, 59, 0.7);
+  --card-gradient-end: rgba(15, 23, 42, 0.4);
+  --card-foreground: #f8fafc;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-highlight: rgba(255, 255, 255, 0.15);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  --popover: rgba(15, 23, 42, 0.8);
+  --popover-foreground: #f8fafc;
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(30, 41, 59, 0.5);
+  --ring: rgba(129, 140, 248, 0.5);
 
-  --bg-gradient: none;
+  /* Ambient Light - Dark Theme: Cyberpunk Glow */
+  --ambient-light: radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.2) 0%, transparent 60%), 
+                   radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                   radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
 }
 
 /* Global Styles for Liquid Design */
 body {
-  background-image: 
-    radial-gradient(circle at 0% 0%, rgba(var(--primary), 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(var(--primary), 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(var(--primary), 0.03) 0%, transparent 50%),
-    var(--bg-gradient);
+  background-color: var(--background);
+  background-image: var(--ambient-light);
   background-attachment: fixed;
+  background-size: 100% 100%;
 }
 
 .glass-panel {
@@ -137,14 +146,15 @@ body {
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-highlight);
   box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.1), /* Increased shadow opacity for light mode */
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4); /* Stronger inner ring */
+    var(--card-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .dark .glass-panel {
   box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    var(--card-shadow),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
@@ -289,3 +299,20 @@ body::before, body::after {
   }
 }
 
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .glass-panel, .glass-card {
+    background: white !important;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    backdrop-filter: none !important;
+  }
+  /* Hide scrollbars */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

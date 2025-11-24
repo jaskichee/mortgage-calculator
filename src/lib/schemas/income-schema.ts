@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-export const incomeSchema = z.object({
-  primaryIncome: z.number().min(0, 'Income must be positive').refine(val => !isNaN(val), { message: "Please enter a valid number" }),
-  primaryBonuses: z.number().min(0, 'Bonuses must be positive').default(0).refine(val => !isNaN(val), { message: "Please enter a valid number" }).describe("Primary Applicant Annual Bonuses"),
-  otherIncome: z.number().min(0, 'Income must be positive').default(0).refine(val => !isNaN(val), { message: "Please enter a valid number" }),
-  otherBonuses: z.number().min(0, 'Bonuses must be positive').default(0).refine(val => !isNaN(val), { message: "Please enter a valid number" }).describe("Other Members Annual Bonuses"),
-  workingMembersCount: z.number().min(1, 'At least one working member').int().refine(val => !isNaN(val), { message: "Please enter a valid number" }),
+export const getIncomeSchema = (t: (key: string) => string) => z.object({
+  primaryIncome: z.number({ message: t('validNumber') }).min(0, t('positive')),
+  primaryBonuses: z.number({ message: t('validNumber') }).min(0, t('positive')).default(0).describe("Primary Applicant Annual Bonuses"),
+  otherIncome: z.number({ message: t('validNumber') }).min(0, t('positive')).default(0),
+  otherBonuses: z.number({ message: t('validNumber') }).min(0, t('positive')).default(0).describe("Other Members Annual Bonuses"),
+  workingMembersCount: z.number({ message: t('validNumber') }).min(1, t('minWorkingMembers')).int(),
 });
 
-export type IncomeFormData = z.infer<typeof incomeSchema>;
+export type IncomeFormData = z.infer<ReturnType<typeof getIncomeSchema>>;

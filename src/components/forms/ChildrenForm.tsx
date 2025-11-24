@@ -1,10 +1,11 @@
 import React from 'react';
-import { useForm, useFieldArray, Controller, useWatch } from 'react-hook-form';
+import { useForm, useFieldArray, Controller, useWatch, Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { childrenSchema, ChildrenFormData } from '@/lib/schemas/children-schema';
+import { getChildrenSchema, ChildrenFormData } from '@/lib/schemas/children-schema';
 import DesktopDatePicker from '@/components/ui/DesktopDatePicker';
 import { Button } from '@/components/ui/Button';
 import { calculateAge, getChildCost } from '@/lib/calculations/age-calculator';
+import { useTranslations } from 'next-intl';
 
 interface ChildrenFormProps {
   defaultValues?: Partial<ChildrenFormData>;
@@ -13,11 +14,16 @@ interface ChildrenFormProps {
 }
 
 export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormProps) {
+  const t = useTranslations('Calculator.children');
+  const tCommon = useTranslations('Common');
+  const tValidation = useTranslations('Validation');
+  const schema = getChildrenSchema(tValidation);
+
   const {
     control,
     handleSubmit,
   } = useForm<ChildrenFormData>({
-    resolver: zodResolver(childrenSchema),
+    resolver: zodResolver(schema) as Resolver<ChildrenFormData>,
     defaultValues: {
       children: [],
       ...defaultValues,
@@ -38,19 +44,19 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="font-medium text-foreground">Children</h3>
+          <h3 className="font-medium text-foreground">{t('title')}</h3>
           <Button 
             type="button" 
             variant="secondary" 
             size="sm"
             onClick={() => append({ birthDate: new Date() })}
           >
-            Add Child
+            {t('add')}
           </Button>
         </div>
 
         {fields.length === 0 && (
-          <p className="text-muted-foreground text-sm italic">No children added yet.</p>
+          <p className="text-muted-foreground text-sm italic">{t('empty')}</p>
         )}
 
         {fields.map((field, index) => {
@@ -66,7 +72,7 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
                   name={`children.${index}.birthDate`}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <DesktopDatePicker
-                      label={`Child ${index + 1} Date of Birth`}
+                      label={t('dob', { index: index + 1 })}
                       value={value}
                       onChange={onChange}
                       error={error?.message}
@@ -75,7 +81,7 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
                 />
               </div>
               <div className="text-sm text-muted-foreground sm:pb-3">
-                Age: {age} | Est. Cost: €{cost}
+                {t('age', { age })} | {t('cost', { cost })}
               </div>
               <Button 
                 type="button" 
@@ -83,7 +89,7 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
                 className="w-full sm:w-auto text-red-600 hover:text-red-700 border-red-200 hover:bg-red-50"
                 onClick={() => remove(index)}
               >
-                Remove
+                {t('remove')}
               </Button>
             </div>
           );
@@ -91,8 +97,8 @@ export function ChildrenForm({ defaultValues, onSubmit, onBack }: ChildrenFormPr
       </div>
 
       <div className="flex gap-4">
-        <Button type="button" variant="outline" onClick={onBack} className="w-full">Back</Button>
-        <Button type="submit" className="w-full">Next Step</Button>
+        <Button type="button" variant="outline" onClick={onBack} className="w-full">{tCommon('back')}</Button>
+        <Button type="submit" className="w-full">{tCommon('nextStep')}</Button>
       </div>
     </form>
   );

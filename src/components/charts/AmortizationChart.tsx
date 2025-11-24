@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { AmortizationEntry } from '@/lib/calculations/mortgage';
 
@@ -17,15 +18,16 @@ interface CustomTooltipProps {
 }
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  const t = useTranslations('Results.charts.amortizationChart');
   if (active && payload && payload.length) {
     return (
       <div className="bg-popover/80 backdrop-blur-xl border border-border p-3 rounded-xl shadow-xl">
-        <p className="text-sm font-medium text-foreground mb-2">{`Year ${Math.floor(Number(label) / 12)}`}</p>
+        <p className="text-sm font-medium text-foreground mb-2">{t('year', { year: Math.floor(Number(label) / 12) })}</p>
         {payload.map((entry, index: number) => (
           <div key={index} className="flex items-center gap-2 text-xs mb-1">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
             <span className="text-muted-foreground">{entry.name}:</span>
-            <span className="font-mono text-foreground">€{Number(entry.value).toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+            <span className="font-mono text-foreground">€{Number(entry.value).toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
           </div>
         ))}
       </div>
@@ -35,6 +37,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export function AmortizationChart({ data }: AmortizationChartProps) {
+  const t = useTranslations('Results.charts.amortizationChart');
   // Downsample data if too large (e.g. 360 months)
   const chartData = data.filter((_, i) => i % 12 === 0 || i === data.length - 1);
 
@@ -79,7 +82,7 @@ export function AmortizationChart({ data }: AmortizationChartProps) {
             stackId="1" 
             stroke="#94a3b8" 
             fill="url(#colorBalance)" 
-            name="Loan Balance" 
+            name={t('balance')} 
             strokeWidth={2}
           />
           <Area 
@@ -88,7 +91,7 @@ export function AmortizationChart({ data }: AmortizationChartProps) {
             stackId="2" 
             stroke="#2dd4bf" 
             fill="url(#colorEquity)" 
-            name="Equity" 
+            name={t('equity')} 
             strokeWidth={2}
           />
         </AreaChart>

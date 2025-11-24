@@ -1,0 +1,308 @@
+{
+  "Metadata": {
+    "title": "Mortgage Calculator",
+    "description": "Analyze mortgage affordability with Slovenian market specifics"
+  },
+  "Validation": {
+    "positive": "Must be positive",
+    "validNumber": "Please enter a valid number",
+    "required": "Required field",
+    "minWorkingMembers": "At least one working member",
+    "minLoanAmount": "Loan amount must be at least €10,000",
+    "minHomePrice": "Home price must be at least €10,000",
+    "minDownPayment": "Down payment must be positive",
+    "maxDownPayment": "Down payment cannot exceed home price",
+    "minInterestRate": "Interest rate must be positive",
+    "maxInterestRate": "Interest rate seems too high",
+    "minLoanTerm": "Loan term must be at least {years} years",
+    "maxLoanTerm": "Loan term cannot exceed {years} years",
+    "collateralRequired": "Collateral property value is required",
+    "consumerLoanRateRequired": "Consumer loan interest rate is required",
+    "consumerLoanTermRequired": "Consumer loan term is required",
+    "futureDate": "Date must be in the future",
+    "pastDate": "Date must be in the past"
+  },
+  "Common": {
+    "close": "Close",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "toggleTheme": "Toggle theme",
+    "loading": "Loading...",
+    "nextStep": "Next Step",
+    "back": "Back",
+    "reset": "Reset",
+    "years": "Years",
+    "months": "Months"
+  },
+  "Home": {
+    "title": "Mortgage <highlight>Affordability</highlight>",
+    "subtitle": "Plan your future with precision. Advanced analytics for the modern homeowner.",
+    "startAnalysis": "Start Analysis",
+    "collateralAnalysis": "Collateral Analysis",
+    "collateralDesc": "Leverage existing assets. Calculate equity requirements and explore 0% down payment scenarios with parental collateral.",
+    "stressTesting": "Stress Testing",
+    "stressDesc": "Future-proof your finances. Simulate interest rate hikes, income fluctuations, and economic shifts.",
+    "investmentPlanning": "Investment Planning",
+    "investmentDesc": "Optimize your wealth. Balance mortgage obligations with ETF portfolios and emergency fund growth.",
+    "footer": "Designed for the Slovenian Market | EUR Currency"
+  },
+  "Calculator": {
+    "title": "Mortgage Calculator",
+    "subtitle": "Plan your financial future with precision",
+    "step": "Step",
+    "reset": "Reset",
+    "resetConfirm": "Are you sure you want to clear all data and start over?",
+    "calculating": "Calculating Results...",
+    "analyzing": "Analyzing your affordability scenarios",
+    "steps": {
+      "income": { "title": "Household Income", "description": "Enter your monthly net income details" },
+      "expenses": { "title": "Monthly Expenses", "description": "Estimate your regular monthly spending" },
+      "mortgage": { "title": "Mortgage Details", "description": "Loan amount, interest rate, and terms" },
+      "children": { "title": "Children", "description": "Add children to estimate future costs" },
+      "debts": { "title": "Debts & Savings", "description": "Existing loans and current savings" },
+      "investment": { "title": "Investment Preferences", "description": "Plan your emergency fund and investments" }
+    },
+    "income": {
+      "workingMembers": "Number of Working Household Members",
+      "primary": {
+        "title": "Primary Applicant",
+        "netIncome": "Monthly Net Income (€)",
+        "bonuses": "Annual Bonuses (Holiday Allowance, Christmas Bonus, etc.) (€)",
+        "bonusesHelper": "Total annual net amount"
+      },
+      "other": {
+        "title": "Other Household Members",
+        "titleTotal": "Other Household Members (Total for {count} people)",
+        "netIncome": "Monthly Net Income (2nd Member)",
+        "netIncomeTotal": "Total Monthly Net Income (All Others)",
+        "bonuses": "Annual Bonuses (2nd Member)",
+        "bonusesTotal": "Total Annual Bonuses (All Others)",
+        "bonusesHelper": "Total annual net amount"
+      },
+      "submit": "Next Step"
+    },
+    "expenses": {
+      "fixed": {
+        "title": "Fixed Expenses",
+        "utilities": "Utilities (Electricity, Water, Heating)",
+        "insurance": "Insurance (Life, Home, Car)",
+        "lifeInsuranceDuration": "Life Insurance Duration (Years)",
+        "lifeInsuranceDurationHelper": "If applicable, how many years left? (0 for indefinite)",
+        "subscriptions": "Subscriptions (Phone, Internet, Netflix)"
+      },
+      "variable": {
+        "title": "Variable Expenses",
+        "groceries": "Groceries & Household Items",
+        "transportation": "Transportation (Fuel, Public Transport)",
+        "entertainment": "Entertainment & Dining Out",
+        "other": "Other Expenses"
+      },
+      "total": "Total Monthly Expenses"
+    },
+    "mortgage": {
+      "homePrice": "Home Price (€)",
+      "downPayment": "Down Payment (€)",
+      "ltvHelper": "LTV: {ltv}% {needsCollateral, select, true {(Requires Additional Resources)} other {}}",
+      "collateral": {
+        "title": "Additional Resources Required",
+        "description": "Your down payment is below 20%. You need additional security.",
+        "options": {
+          "none": "Select an option...",
+          "collateral": "Use Parent's Property as Collateral",
+          "consumerLoan": "Take a Consumer Loan for Down Payment",
+          "guarantor": "Add a Guarantor (Secured by Additional Mortgage)"
+        },
+        "parentProperty": "Property Value",
+        "consumerLoanRate": "Consumer Loan Interest Rate (%)",
+        "consumerLoanTerm": "Consumer Loan Term (Years)",
+        "insufficientCollateral": "Insufficient collateral value. Need at least €{amount}"
+      },
+      "rateType": {
+        "label": "Interest Rate Type",
+        "fixed": "Fixed Rate",
+        "variable": "Variable (Euribor + Margin)",
+        "combined": "Combined"
+      },
+      "interestRate": "Annual Interest Rate (%)",
+      "euribor": "Euribor Rate (%)",
+      "bankMargin": "Bank Margin (%)",
+      "loanTerm": "Loan Term (Years)"
+    },
+    "children": {
+      "title": "Children",
+      "add": "Add Child",
+      "empty": "No children added yet.",
+      "dob": "Child {index} Date of Birth",
+      "age": "Age: {age}",
+      "cost": "Est. Cost: €{cost}",
+      "remove": "Remove"
+    },
+    "debts": {
+      "title": "Existing Monthly Debt Payments",
+      "studentLoans": "Student Loans (€/month)",
+      "creditCards": "Credit Cards (€/month)",
+      "carLoans": "Car Loans (€/month)",
+      "carLoanEndDate": "Date of Last Car Loan Payment",
+      "otherLoans": "Other Loans (€/month)",
+      "savings": {
+        "title": "Savings",
+        "total": "Current Total Savings (€)",
+        "helper": "Total amount currently saved (excluding emergency fund if separate)"
+      },
+      "totalMonthly": "Total Monthly Debt Payments: €{total}"
+    },
+    "investment": {
+      "emergencyFund": {
+        "title": "Emergency Fund Target",
+        "label": "Months of Expenses to Cover",
+        "helper": "Recommended: 3-6 months of essential expenses saved before investing."
+      },
+      "allocation": {
+        "title": "Surplus Income Allocation",
+        "label": "ETF / Savings Split",
+        "savings": "Savings",
+        "lowRisk": "More Savings (Low Risk)",
+        "highRisk": "More ETFs (Higher Growth)"
+      },
+      "submit": "Calculate Results"
+    }
+  },
+  "Results": {
+    "title": "Analysis Results",
+    "editInputs": "Edit Inputs",
+    "actions": {
+      "reset": "Reset Data",
+      "resetConfirm": "Are you sure you want to clear all data and start over?",
+      "edit": "Edit Inputs",
+      "export": "Export PDF"
+    },
+    "summary": {
+      "monthlyPayment": "Monthly Payment",
+      "rate": "Interest Rate",
+      "netIncome": "Net Monthly Income",
+      "surplus": "Monthly Surplus",
+      "afterAllExpenses": "After all expenses",
+      "dti": "DTI Ratio",
+      "emergencyFund": "Emergency Fund Target",
+      "available": "Available for savings/investing",
+      "deficit": "Deficit!",
+      "pass": "Pass",
+      "fail": "Fail"
+    },
+    "dtiAnalysis": "DTI Analysis",
+    "housingDti": "Housing DTI",
+    "maxAllowedPayment": "Max Allowed Payment",
+    "collateralCheck": "Collateral Check",
+    "requiredCollateral": "Required Collateral",
+    "availableCollateral": "Available Collateral",
+    "collateralSufficient": "Collateral Sufficient",
+    "collateralInsufficient": "Collateral Insufficient",
+    "stressTestProjection": "Stress Test Projection",
+    "stressTestScenarios": "Stress Test Scenarios",
+    "cashFlowProjection": "Cash Flow Projection",
+    "amortizationSchedule": "Amortization Schedule",
+    "emergencyFundTracker": "Emergency Fund Tracker",
+    "charts": {
+      "dti": "Debt-to-Income Ratio (DTI)",
+      "cashflow": "Monthly Cash Flow Projection",
+      "stressTest": "Stress Test: 5-Year Savings Projection",
+      "amortization": "Amortization Schedule",
+      "cashFlow": {
+        "expenses": "Expenses",
+        "debts": "Debts",
+        "mortgage": "Mortgage",
+        "leftover": "Leftover"
+      },
+      "amortizationChart": {
+        "year": "Year {year}",
+        "balance": "Loan Balance",
+        "equity": "Home Equity"
+      },
+      "cashFlowChart": {
+        "income": "Income",
+        "expenses": "Expenses",
+        "debts": "Debts",
+        "mortgage": "Mortgage",
+        "leftover": "Leftover"
+      },
+      "stressTestChart": {
+        "year": "Year {year}",
+        "years": "Years",
+        "baseline": "Baseline",
+        "rateIncrease": "Rate +2%",
+        "jobLoss": "Job Loss"
+      },
+      "dtiGauge": {
+        "limit": "Limit: 40%"
+      }
+    },
+    "children": {
+      "title": "Children",
+      "empty": "No children added.",
+      "details": "Child {index}: {date} — Age: {age}"
+    },
+    "collateral": {
+      "status": "Collateral Status: {status}",
+      "approved": "Approved",
+      "insufficient": "Insufficient",
+      "required": "Required Equity (20% of Home): €{required}",
+      "available": "Available Equity (80% of Parent's): €{available}",
+      "shortfall": "Shortfall: €{shortfall}"
+    },
+    "emergencyFund": {
+      "title": "Emergency Fund Plan",
+      "currentSavings": "Current Savings",
+      "targetGoal": "Target Goal",
+      "funded": "% Funded",
+      "goalReached": "Goal Reached!",
+      "monthsToGoal": "{months} months to reach goal",
+      "noContribution": "No monthly contribution"
+    },
+    "comparison": {
+      "title": "Mortgage Options Comparison",
+      "metric": "Metric",
+      "standard": "Standard (20% Down)",
+      "collateral": "With Collateral (0% Down)",
+      "consumerLoan": "With Consumer Loan",
+      "userSelection": "Your Selection",
+      "downPayment": "Down Payment",
+      "loanAmount": "Loan Amount",
+      "loanTerm": "Loan Term",
+      "monthlyPayment": "Monthly Payment (Total)",
+      "years": "{count} years",
+      "consumerLoanPart": "↳ Consumer Loan Part",
+      "consumerLoanRate": "↳ Consumer Loan Rate",
+      "consumerLoanLength": "↳ Consumer Loan Length",
+      "totalInterest": "Total Interest",
+      "totalCost": "Total Cost"
+    },
+    "stressTest": {
+      "title": "Stress Test Scenarios",
+      "metric": "Metric",
+      "monthlyPayment": "Monthly Payment",
+      "dti": "DTI Ratio",
+      "surplus": "Monthly Surplus",
+      "status": "Status",
+      "pass": "Pass",
+      "fail": "Fail",
+      "scenarios": {
+        "baseline": "Baseline",
+        "rateIncrease": "Interest Rate +2%",
+        "jobLoss": "Job Loss (Primary)"
+      }
+    },
+    "investmentAllocation": {
+      "title": "Investment Allocation",
+      "priorityTitle": "Priority: Build Emergency Fund",
+      "priorityDesc": "All surplus income is allocated to building your emergency fund.",
+      "monthlyContribution": "Monthly Contribution",
+      "timeToGoal": "Estimated Time to Goal",
+      "months": "months",
+      "completeTitle": "Emergency Fund Complete!",
+      "completeDesc": "You can now allocate surplus income to investments.",
+      "etfs": "ETFs (Growth)",
+      "savings": "Savings (Safe)",
+      "perMonth": "/ month"
+    }
+  }
+}

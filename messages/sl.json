@@ -1,0 +1,308 @@
+{
+  "Metadata": {
+    "title": "Hipotekarni Kalkulator",
+    "description": "Analizirajte dostopnost hipoteke s specifikami slovenskega trga"
+  },
+  "Validation": {
+    "positive": "Mora biti pozitivno število",
+    "validNumber": "Vnesite veljavno številko",
+    "required": "Obvezno polje",
+    "minWorkingMembers": "Vsaj en zaposlen član",
+    "minLoanAmount": "Znesek posojila mora biti vsaj 10.000 €",
+    "minHomePrice": "Cena nepremičnine mora biti vsaj 10.000 €",
+    "minDownPayment": "Polog mora biti pozitiven",
+    "maxDownPayment": "Polog ne sme preseči cene nepremičnine",
+    "minInterestRate": "Obrestna mera mora biti pozitivna",
+    "maxInterestRate": "Obrestna mera se zdi previsoka",
+    "minLoanTerm": "Doba odplačevanja mora biti vsaj {years} let",
+    "maxLoanTerm": "Doba odplačevanja ne sme preseči {years} let",
+    "collateralRequired": "Vrednost nepremičnine za zavarovanje je obvezna",
+    "consumerLoanRateRequired": "Obrestna mera potrošniškega kredita je obvezna",
+    "consumerLoanTermRequired": "Doba potrošniškega kredita je obvezna",
+    "futureDate": "Datum mora biti v prihodnosti",
+    "pastDate": "Datum mora biti v preteklosti"
+  },
+  "Common": {
+    "close": "Zapri",
+    "prevMonth": "Prejšnji mesec",
+    "nextMonth": "Naslednji mesec",
+    "toggleTheme": "Preklopi temo",
+    "loading": "Nalaganje...",
+    "nextStep": "Naslednji korak",
+    "back": "Nazaj",
+    "reset": "Ponastavi",
+    "years": "Let",
+    "months": "Mesecev"
+  },
+  "Home": {
+    "title": "Hipotekarna <highlight>Dosegljivost</highlight>",
+    "subtitle": "Načrtujte svojo prihodnost z natančnostjo. Napredna analitika za sodobnega lastnika doma.",
+    "startAnalysis": "Začni Analizo",
+    "collateralAnalysis": "Analiza Zavarovanja",
+    "collateralDesc": "Izkoristite obstoječa sredstva. Izračunajte zahteve po lastniškem kapitalu in raziščite scenarije z 0% pologa s pomočjo zavarovanja staršev.",
+    "stressTesting": "Stresni Testi",
+    "stressDesc": "Zavarujte svoje finance za prihodnost. Simulirajte dvige obrestnih mer, nihanja dohodkov in gospodarske spremembe.",
+    "investmentPlanning": "Načrtovanje Naložb",
+    "investmentDesc": "Optimizirajte svoje bogastvo. Uravnotežite hipotekarne obveznosti s portfelji ETF in rastjo varnostnega sklada.",
+    "footer": "Zasnovano za slovenski trg | Valuta EUR"
+  },
+  "Calculator": {
+    "title": "Hipotekarni Kalkulator",
+    "subtitle": "Načrtujte svojo finančno prihodnost z natančnostjo",
+    "step": "Korak",
+    "reset": "Ponastavi",
+    "resetConfirm": "Ali ste prepričani, da želite izbrisati vse podatke in začeti znova?",
+    "calculating": "Izračunavanje rezultatov...",
+    "analyzing": "Analiziramo vaše scenarije dostopnosti",
+    "steps": {
+      "income": { "title": "Dohodek gospodinjstva", "description": "Vnesite podrobnosti o mesečnem neto dohodku" },
+      "expenses": { "title": "Mesečni stroški", "description": "Ocenite svojo redno mesečno porabo" },
+      "mortgage": { "title": "Podrobnosti hipoteke", "description": "Znesek posojila, obrestna mera in pogoji" },
+      "children": { "title": "Otroci", "description": "Dodajte otroke za oceno prihodnjih stroškov" },
+      "debts": { "title": "Dolgovi in prihranki", "description": "Obstoječa posojila in trenutni prihranki" },
+      "investment": { "title": "Naložbene preference", "description": "Načrtujte varnostno rezervo in naložbe" }
+    },
+    "income": {
+      "workingMembers": "Število zaposlenih članov gospodinjstva",
+      "primary": {
+        "title": "Glavni prosilec",
+        "netIncome": "Mesečni neto dohodek (€)",
+        "bonuses": "Letni dodatki (Regres, Božičnica, itd.) (€)",
+        "bonusesHelper": "Skupni letni neto znesek"
+      },
+      "other": {
+        "title": "Drugi člani gospodinjstva",
+        "titleTotal": "Drugi člani gospodinjstva (Skupaj za {count} oseb)",
+        "netIncome": "Mesečni neto dohodek (2. član)",
+        "netIncomeTotal": "Skupni mesečni neto dohodek (Vsi ostali)",
+        "bonuses": "Letni dodatki (2. član)",
+        "bonusesTotal": "Skupni letni dodatki (Vsi ostali)",
+        "bonusesHelper": "Skupni letni neto znesek"
+      },
+      "submit": "Naslednji korak"
+    },
+    "expenses": {
+      "fixed": {
+        "title": "Fiksni stroški",
+        "utilities": "Stroški bivanja (Elektrika, Voda, Ogrevanje)",
+        "insurance": "Zavarovanja (Življenjsko, Dom, Avto)",
+        "lifeInsuranceDuration": "Trajanje življenjskega zavarovanja (Leta)",
+        "lifeInsuranceDurationHelper": "Če je primerno, koliko let še? (0 za nedoločen čas)",
+        "subscriptions": "Naročnine (Telefon, Internet, Netflix)"
+      },
+      "variable": {
+        "title": "Variabilni stroški",
+        "groceries": "Hrana in gospodinjski pripomočki",
+        "transportation": "Prevoz (Gorivo, Javni prevoz)",
+        "entertainment": "Zabava in prehranjevanje zunaj",
+        "other": "Drugi stroški"
+      },
+      "total": "Skupni mesečni stroški"
+    },
+    "mortgage": {
+      "homePrice": "Cena nepremičnine (€)",
+      "downPayment": "Lastna udeležba (€)",
+      "ltvHelper": "LTV: {ltv}% {needsCollateral, select, true {(Potrebna dodatna sredstva)} other {}}",
+      "collateral": {
+        "title": "Potrebna dodatna sredstva",
+        "description": "Vaša lastna udeležba je pod 20%. Potrebujete dodatno zavarovanje.",
+        "options": {
+          "none": "Izberite možnost...",
+          "collateral": "Uporabi nepremičnino staršev kot zavarovanje",
+          "consumerLoan": "Vzemi potrošniški kredit za polog",
+          "guarantor": "Dodaj poroka (zavarovanje z dodatno hipoteko)"
+        },
+        "parentProperty": "Vrednost nepremičnine",
+        "consumerLoanRate": "Obrestna mera potrošniškega kredita (%)",
+        "consumerLoanTerm": "Doba potrošniškega kredita (Leta)",
+        "insufficientCollateral": "Nezadostna vrednost zavarovanja. Potrebno vsaj {amount} €"
+      },
+      "rateType": {
+        "label": "Vrsta obrestne mere",
+        "fixed": "Fiksna obrestna mera",
+        "variable": "Spremenljiva (Euribor + Pribitek)",
+        "combined": "Kombinirana"
+      },
+      "interestRate": "Letna obrestna mera (%)",
+      "euribor": "Euribor (%)",
+      "bankMargin": "Bančni pribitek (%)",
+      "loanTerm": "Doba odplačevanja (Leta)"
+    },
+    "children": {
+      "title": "Otroci",
+      "add": "Dodaj otroka",
+      "empty": "Ni dodanih otrok.",
+      "dob": "Datum rojstva otroka {index}",
+      "age": "Starost: {age}",
+      "cost": "Ocenjeni stroški: €{cost}",
+      "remove": "Odstrani"
+    },
+    "debts": {
+      "title": "Obstoječa mesečna plačila dolgov",
+      "studentLoans": "Študentska posojila (€/mesec)",
+      "creditCards": "Kreditne kartice (€/mesec)",
+      "carLoans": "Avtomobilska posojila (€/mesec)",
+      "carLoanEndDate": "Datum zadnjega plačila za avto",
+      "otherLoans": "Druga posojila (€/mesec)",
+      "savings": {
+        "title": "Prihranki",
+        "total": "Trenutni skupni prihranki (€)",
+        "helper": "Skupni znesek trenutnih prihrankov (brez varnostne rezerve, če je ločena)"
+      },
+      "totalMonthly": "Skupna mesečna plačila dolgov: €{total}"
+    },
+    "investment": {
+      "emergencyFund": {
+        "title": "Cilj varnostne rezerve",
+        "label": "Mesecev kritja stroškov",
+        "helper": "Priporočeno: 3-6 mesecev nujnih stroškov prihranjenih pred investiranjem."
+      },
+      "allocation": {
+        "title": "Razporeditev presežka dohodka",
+        "label": "Razmerje ETF / Varčevanje",
+        "savings": "Varčevanje",
+        "lowRisk": "Več varčevanja (Nizko tveganje)",
+        "highRisk": "Več ETF (Višja rast)"
+      },
+      "submit": "Izračunaj rezultate"
+    }
+  },
+  "Results": {
+    "title": "Rezultati analize",
+    "editInputs": "Uredi vnose",
+    "actions": {
+      "reset": "Ponastavi podatke",
+      "resetConfirm": "Ali ste prepričani, da želite izbrisati vse podatke in začeti znova?",
+      "edit": "Uredi vnose",
+      "export": "Izvozi PDF"
+    },
+    "summary": {
+      "monthlyPayment": "Mesečni obrok",
+      "rate": "Obrestna mera",
+      "netIncome": "Neto mesečni dohodek",
+      "surplus": "Mesečni presežek",
+      "afterAllExpenses": "Po vseh stroških",
+      "dti": "DTI Razmerje",
+      "emergencyFund": "Cilj varnostne rezerve",
+      "available": "Na voljo za varčevanje/investiranje",
+      "deficit": "Primanjkljaj!",
+      "pass": "Ustrezno",
+      "fail": "Neustrezno"
+    },
+    "dtiAnalysis": "Analiza DTI",
+    "housingDti": "Stanovanjski DTI",
+    "maxAllowedPayment": "Najvišji dovoljeni obrok",
+    "collateralCheck": "Preverjanje zavarovanja",
+    "requiredCollateral": "Potrebno zavarovanje",
+    "availableCollateral": "Razpoložljivo zavarovanje",
+    "collateralSufficient": "Zavarovanje zadostuje",
+    "collateralInsufficient": "Zavarovanje ne zadostuje",
+    "stressTestProjection": "Projekcija stresnega testa",
+    "stressTestScenarios": "Scenariji stresnega testa",
+    "cashFlowProjection": "Projekcija denarnega toka",
+    "amortizationSchedule": "Amortizacijski načrt",
+    "emergencyFundTracker": "Sledenje varnostni rezervi",
+    "charts": {
+      "dti": "Razmerje med dolgom in dohodkom (DTI)",
+      "cashflow": "Projekcija mesečnega denarnega toka",
+      "stressTest": "Stresni test: 5-letna projekcija prihrankov",
+      "amortization": "Amortizacijski načrt",
+      "cashFlow": {
+        "expenses": "Stroški",
+        "debts": "Dolgovi",
+        "mortgage": "Kredit",
+        "leftover": "Presežek"
+      },
+      "amortizationChart": {
+        "year": "Leto {year}",
+        "balance": "Stanje kredita",
+        "equity": "Lastniški kapital"
+      },
+      "cashFlowChart": {
+        "income": "Prihodki",
+        "expenses": "Stroški",
+        "debts": "Dolgovi",
+        "mortgage": "Kredit",
+        "leftover": "Presežek"
+      },
+      "stressTestChart": {
+        "year": "Leto {year}",
+        "years": "Leta",
+        "baseline": "Osnovni",
+        "rateIncrease": "Obresti +2%",
+        "jobLoss": "Izguba službe"
+      },
+      "dtiGauge": {
+        "limit": "Limit: 40%"
+      }
+    },
+    "children": {
+      "title": "Otroci",
+      "empty": "Ni dodanih otrok.",
+      "details": "Otrok {index}: {date} — Starost: {age}"
+    },
+    "collateral": {
+      "status": "Status zavarovanja: {status}",
+      "approved": "Odobreno",
+      "insufficient": "Nezadostno",
+      "required": "Potreben kapital (20% nepremičnine): €{required}",
+      "available": "Razpoložljiv kapital (80% staršev): €{available}",
+      "shortfall": "Primanjkljaj: €{shortfall}"
+    },
+    "emergencyFund": {
+      "title": "Načrt varnostne rezerve",
+      "currentSavings": "Trenutni prihranki",
+      "targetGoal": "Ciljni znesek",
+      "funded": "% Zbrano",
+      "goalReached": "Cilj dosežen!",
+      "monthsToGoal": "{months} mesecev do cilja",
+      "noContribution": "Ni mesečnega prispevka"
+    },
+    "comparison": {
+      "title": "Primerjava hipotekarnih možnosti",
+      "metric": "Metrika",
+      "standard": "Standardno (20% polog)",
+      "collateral": "Z zavarovanjem (0% polog)",
+      "consumerLoan": "S potrošniškim kreditom",
+      "userSelection": "Vaša izbira",
+      "downPayment": "Lastna udeležba",
+      "loanAmount": "Znesek posojila",
+      "loanTerm": "Doba odplačevanja",
+      "monthlyPayment": "Mesečni obrok (Skupaj)",
+      "years": "{count} let",
+      "consumerLoanPart": "↳ Del potrošniškega kredita",
+      "consumerLoanRate": "↳ Obrestna mera potrošniškega kredita",
+      "consumerLoanLength": "↳ Doba potrošniškega kredita",
+      "totalInterest": "Skupne obresti",
+      "totalCost": "Skupni stroški"
+    },
+    "stressTest": {
+      "title": "Scenariji stresnih testov",
+      "metric": "Metrika",
+      "monthlyPayment": "Mesečni obrok",
+      "dti": "DTI Razmerje",
+      "surplus": "Mesečni presežek",
+      "status": "Status",
+      "pass": "Ustrezno",
+      "fail": "Neustrezno",
+      "scenarios": {
+        "baseline": "Osnovni scenarij",
+        "rateIncrease": "Obrestna mera +2%",
+        "jobLoss": "Izguba zaposlitve (Glavni)"
+      }
+    },
+    "investmentAllocation": {
+      "title": "Razporeditev naložb",
+      "priorityTitle": "Prioriteta: Izgradnja varnostne rezerve",
+      "priorityDesc": "Ves presežek dohodka je namenjen izgradnji varnostne rezerve.",
+      "monthlyContribution": "Mesečni prispevek",
+      "timeToGoal": "Predviden čas do cilja",
+      "months": "mesecev",
+      "completeTitle": "Varnostna rezerva zapolnjena!",
+      "completeDesc": "Presežek dohodka lahko zdaj namenite naložbam.",
+      "etfs": "ETF Skladi (Rast)",
+      "savings": "Varčevanje (Varno)",
+      "perMonth": "/ mesec"
+    }
+  }
+}
